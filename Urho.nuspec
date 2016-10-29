@@ -46,17 +46,17 @@
      <file src="docs/Urho.XML" target="lib/Xamarin.iOS10/Urho.XML" />
 
      <!--Windows+Mac-->
-     <file src="Nuget/Desktop/UrhoSharp.targets" target="build/net45" />
+     <!--<file src="Nuget/Desktop/UrhoSharp.targets" target="build/net45" />
      <file src="Bin/Desktop/Urho.dll" target="lib/net45/Urho.dll" />
      <file src="docs/Urho.XML" target="lib/net45/Urho.XML" />
      <file src="Bin/Desktop/Win64/mono-urho.dll" target="native/Win64/mono-urho.dll" />
      <file src="Bin/Desktop/Win32/mono-urho.dll" target="native/Win32/mono-urho.dll" />
-     <file src="Bin/Desktop/libmono-urho.dylib" target="native/Mac/libmono-urho.dylib" />
+     <file src="Bin/Desktop/libmono-urho.dylib" target="native/Mac/libmono-urho.dylib" />-->
 	 
 	 <!--UWP-->
-     <file src="Nuget/UWP/UrhoSharp.targets" target="build/uap10.0" />
+     <!--<file src="Nuget/UWP/UrhoSharp.targets" target="build/uap10.0" />
      <file src="docs/Urho.XML" target="lib/uap10.0/Urho.XML" />
      <file src="Bin/UWP/Urho.dll" target="lib/uap10.0/Urho.dll" />
-     <file src="Bin/UWP/mono-urho.dll" target="native/UWP32/mono-urho.dll" />
+     <file src="Bin/UWP/mono-urho.dll" target="native/UWP32/mono-urho.dll" />-->	
    </files>
 </package>

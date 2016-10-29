@@ -53,6 +53,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Xamarin.iOS" />
+    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <ObjcBindingApiDefinition Include="iOS\ApiDefinition.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="iOS\IosPlatformInitializer.cs" />
     <Compile Include="iOS\UrhoSurface.cs" />
     <Compile Include="Urho.framework.linkwith.cs" />
+    <Compile Include="FlorinTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ObjcBindingNativeFramework Include="..\Bin\iOS\Urho.framework" />
