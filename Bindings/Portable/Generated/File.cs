@@ -23,12 +23,18 @@ namespace Urho.IO
 	/// </summary>
 	public unsafe partial class File : UrhoObject, IDeserializer, ISerializer
 	{
+		unsafe partial void OnFileCreated ();
+
+		[Preserve]
 		public File (IntPtr handle) : base (handle)
 		{
+			OnFileCreated ();
 		}
 
+		[Preserve]
 		protected File (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnFileCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.IO
 			return Marshal.PtrToStringAnsi (File_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public File () : this (Application.CurrentContext)
 		{
 		}
@@ -74,31 +81,37 @@ namespace Urho.IO
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr File_File (IntPtr context);
 
+		[Preserve]
 		public File (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(File));
 			handle = File_File ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnFileCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr File_File0 (IntPtr context, string fileName, FileMode mode);
 
+		[Preserve]
 		public File (Context context, string fileName, FileMode mode) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(File));
 			handle = File_File0 ((object)context == null ? IntPtr.Zero : context.Handle, fileName, mode);
 			Runtime.RegisterObject (this);
+			OnFileCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr File_File1 (IntPtr context, IntPtr package, string fileName);
 
+		[Preserve]
 		public File (Context context, PackageFile package, string fileName) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(File));
 			handle = File_File1 ((object)context == null ? IntPtr.Zero : context.Handle, (object)package == null ? IntPtr.Zero : package.Handle, fileName);
 			Runtime.RegisterObject (this);
+			OnFileCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -281,6 +294,7 @@ namespace Urho.IO
 			}
 		}
 
+		[Preserve]
 		public static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

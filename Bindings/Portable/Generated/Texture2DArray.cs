@@ -23,12 +23,18 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class Texture2DArray : Texture
 	{
+		unsafe partial void OnTexture2DArrayCreated ();
+
+		[Preserve]
 		public Texture2DArray (IntPtr handle) : base (handle)
 		{
+			OnTexture2DArrayCreated ();
 		}
 
+		[Preserve]
 		protected Texture2DArray (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnTexture2DArrayCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho
 			return Marshal.PtrToStringAnsi (Texture2DArray_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public Texture2DArray () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr Texture2DArray_Texture2DArray (IntPtr context);
 
+		[Preserve]
 		public Texture2DArray (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(Texture2DArray));
 			handle = Texture2DArray_Texture2DArray ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnTexture2DArrayCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -94,7 +103,7 @@ namespace Urho
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern bool Texture2DArray_BeginLoad (IntPtr handle, IntPtr source);
+		internal static extern bool Texture2DArray_BeginLoad_File (IntPtr handle, IntPtr source);
 
 		/// <summary>
 		/// Load resource from stream. May be called from a worker thread. Return true if successful.
@@ -102,7 +111,19 @@ namespace Urho
 		public override bool BeginLoad (File source)
 		{
 			Runtime.ValidateRefCounted (this);
-			return Texture2DArray_BeginLoad (handle, (object)source == null ? IntPtr.Zero : source.Handle);
+			return Texture2DArray_BeginLoad_File (handle, (object)source == null ? IntPtr.Zero : source.Handle);
+		}
+
+		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern bool Texture2DArray_BeginLoad_MemoryBuffer (IntPtr handle, IntPtr source);
+
+		/// <summary>
+		/// Load resource from stream. May be called from a worker thread. Return true if successful.
+		/// </summary>
+		public override bool BeginLoad (MemoryBuffer source)
+		{
+			Runtime.ValidateRefCounted (this);
+			return Texture2DArray_BeginLoad_MemoryBuffer (handle, (object)source == null ? IntPtr.Zero : source.Handle);
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -190,7 +211,7 @@ namespace Urho
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern bool Texture2DArray_SetData0 (IntPtr handle, uint layer, IntPtr source);
+		internal static extern bool Texture2DArray_SetData0_File (IntPtr handle, uint layer, IntPtr source);
 
 		/// <summary>
 		/// Set data of one layer from a stream. Return true if successful.
@@ -198,7 +219,19 @@ namespace Urho
 		public bool SetData (uint layer, File source)
 		{
 			Runtime.ValidateRefCounted (this);
-			return Texture2DArray_SetData0 (handle, layer, (object)source == null ? IntPtr.Zero : source.Handle);
+			return Texture2DArray_SetData0_File (handle, layer, (object)source == null ? IntPtr.Zero : source.Handle);
+		}
+
+		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern bool Texture2DArray_SetData0_MemoryBuffer (IntPtr handle, uint layer, IntPtr source);
+
+		/// <summary>
+		/// Set data of one layer from a stream. Return true if successful.
+		/// </summary>
+		public bool SetData (uint layer, MemoryBuffer source)
+		{
+			Runtime.ValidateRefCounted (this);
+			return Texture2DArray_SetData0_MemoryBuffer (handle, layer, (object)source == null ? IntPtr.Zero : source.Handle);
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -261,6 +294,7 @@ namespace Urho
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

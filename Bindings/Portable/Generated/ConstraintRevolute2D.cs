@@ -23,12 +23,18 @@ namespace Urho.Urho2D
 	/// </summary>
 	public unsafe partial class ConstraintRevolute2D : Constraint2D
 	{
+		unsafe partial void OnConstraintRevolute2DCreated ();
+
+		[Preserve]
 		public ConstraintRevolute2D (IntPtr handle) : base (handle)
 		{
+			OnConstraintRevolute2DCreated ();
 		}
 
+		[Preserve]
 		protected ConstraintRevolute2D (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnConstraintRevolute2DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Urho2D
 			return Marshal.PtrToStringAnsi (ConstraintRevolute2D_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public ConstraintRevolute2D () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Urho2D
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr ConstraintRevolute2D_ConstraintRevolute2D (IntPtr context);
 
+		[Preserve]
 		public ConstraintRevolute2D (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(ConstraintRevolute2D));
 			handle = ConstraintRevolute2D_ConstraintRevolute2D ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnConstraintRevolute2DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -273,6 +282,7 @@ namespace Urho.Urho2D
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

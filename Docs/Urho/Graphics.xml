@@ -152,6 +152,11 @@
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Preserve</AttributeName>
+        </Attribute>
+      </Attributes>
       <Parameters />
       <Docs>
         <summary>To be added.</summary>
@@ -165,6 +170,11 @@
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Preserve</AttributeName>
+        </Attribute>
+      </Attributes>
       <Parameters>
         <Parameter Name="handle" Type="System.IntPtr" />
       </Parameters>
@@ -185,6 +195,11 @@
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Preserve</AttributeName>
+        </Attribute>
+      </Attributes>
       <Parameters>
         <Parameter Name="context_" Type="Urho.Context" />
       </Parameters>
@@ -201,6 +216,11 @@
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Preserve</AttributeName>
+        </Attribute>
+      </Attributes>
       <Parameters>
         <Parameter Name="emptyFlag" Type="Urho.UrhoObjectFlag" />
       </Parameters>
@@ -1772,6 +1792,25 @@
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
+    <Member MemberName="PrecacheShaders">
+      <MemberSignature Language="C#" Value="public void PrecacheShaders (Urho.MemoryBuffer source);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void PrecacheShaders(class Urho.MemoryBuffer source) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="source" Type="Urho.MemoryBuffer" />
+      </Parameters>
+      <Docs>
+        <param name="source">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
     <Member MemberName="ReadableDepthFormat">
       <MemberSignature Language="C#" Value="public static uint ReadableDepthFormat { get; }" />
       <MemberSignature Language="ILAsm" Value=".property unsigned int32 ReadableDepthFormat" />
@@ -3238,6 +3277,11 @@
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Preserve</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>Urho.StringHash</ReturnType>
       </ReturnValue>

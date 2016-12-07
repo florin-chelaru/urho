@@ -23,12 +23,18 @@ namespace Urho.Gui
 	/// </summary>
 	public unsafe partial class Font : Resource
 	{
+		unsafe partial void OnFontCreated ();
+
+		[Preserve]
 		public Font (IntPtr handle) : base (handle)
 		{
+			OnFontCreated ();
 		}
 
+		[Preserve]
 		protected Font (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnFontCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Gui
 			return Marshal.PtrToStringAnsi (Font_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public Font () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Gui
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr Font_Font (IntPtr context);
 
+		[Preserve]
 		public Font (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(Font));
 			handle = Font_Font ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnFontCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -94,7 +103,7 @@ namespace Urho.Gui
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern bool Font_BeginLoad (IntPtr handle, IntPtr source);
+		internal static extern bool Font_BeginLoad_File (IntPtr handle, IntPtr source);
 
 		/// <summary>
 		/// Load resource from stream. May be called from a worker thread. Return true if successful.
@@ -102,11 +111,23 @@ namespace Urho.Gui
 		public override bool BeginLoad (File source)
 		{
 			Runtime.ValidateRefCounted (this);
-			return Font_BeginLoad (handle, (object)source == null ? IntPtr.Zero : source.Handle);
+			return Font_BeginLoad_File (handle, (object)source == null ? IntPtr.Zero : source.Handle);
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern bool Font_SaveXML (IntPtr handle, IntPtr dest, int pointSize, bool usedGlyphs, string indentation);
+		internal static extern bool Font_BeginLoad_MemoryBuffer (IntPtr handle, IntPtr source);
+
+		/// <summary>
+		/// Load resource from stream. May be called from a worker thread. Return true if successful.
+		/// </summary>
+		public override bool BeginLoad (MemoryBuffer source)
+		{
+			Runtime.ValidateRefCounted (this);
+			return Font_BeginLoad_MemoryBuffer (handle, (object)source == null ? IntPtr.Zero : source.Handle);
+		}
+
+		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern bool Font_SaveXML_File (IntPtr handle, IntPtr dest, int pointSize, bool usedGlyphs, string indentation);
 
 		/// <summary>
 		/// Save resource as a new bitmap font type in XML format. Return true if successful.
@@ -114,7 +135,19 @@ namespace Urho.Gui
 		public bool SaveXml (File dest, int pointSize, bool usedGlyphs, string indentation)
 		{
 			Runtime.ValidateRefCounted (this);
-			return Font_SaveXML (handle, (object)dest == null ? IntPtr.Zero : dest.Handle, pointSize, usedGlyphs, indentation);
+			return Font_SaveXML_File (handle, (object)dest == null ? IntPtr.Zero : dest.Handle, pointSize, usedGlyphs, indentation);
+		}
+
+		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern bool Font_SaveXML_MemoryBuffer (IntPtr handle, IntPtr dest, int pointSize, bool usedGlyphs, string indentation);
+
+		/// <summary>
+		/// Save resource as a new bitmap font type in XML format. Return true if successful.
+		/// </summary>
+		public bool SaveXml (MemoryBuffer dest, int pointSize, bool usedGlyphs, string indentation)
+		{
+			Runtime.ValidateRefCounted (this);
+			return Font_SaveXML_MemoryBuffer (handle, (object)dest == null ? IntPtr.Zero : dest.Handle, pointSize, usedGlyphs, indentation);
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -225,6 +258,7 @@ namespace Urho.Gui
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

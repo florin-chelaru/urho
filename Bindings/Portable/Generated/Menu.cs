@@ -23,12 +23,18 @@ namespace Urho.Gui
 	/// </summary>
 	public unsafe partial class Menu : Button
 	{
+		unsafe partial void OnMenuCreated ();
+
+		[Preserve]
 		public Menu (IntPtr handle) : base (handle)
 		{
+			OnMenuCreated ();
 		}
 
+		[Preserve]
 		protected Menu (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnMenuCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Gui
 			return Marshal.PtrToStringAnsi (Menu_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public Menu () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Gui
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr Menu_Menu (IntPtr context);
 
+		[Preserve]
 		public Menu (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(Menu));
 			handle = Menu_Menu ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnMenuCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -297,6 +306,7 @@ namespace Urho.Gui
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

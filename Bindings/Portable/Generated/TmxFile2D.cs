@@ -23,12 +23,18 @@ namespace Urho.Urho2D
 	/// </summary>
 	public unsafe partial class TmxFile2D : Resource
 	{
+		unsafe partial void OnTmxFile2DCreated ();
+
+		[Preserve]
 		public TmxFile2D (IntPtr handle) : base (handle)
 		{
+			OnTmxFile2DCreated ();
 		}
 
+		[Preserve]
 		protected TmxFile2D (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnTmxFile2DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Urho2D
 			return Marshal.PtrToStringAnsi (TmxFile2D_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public TmxFile2D () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Urho2D
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr TmxFile2D_TmxFile2D (IntPtr context);
 
+		[Preserve]
 		public TmxFile2D (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(TmxFile2D));
 			handle = TmxFile2D_TmxFile2D ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnTmxFile2DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -94,7 +103,7 @@ namespace Urho.Urho2D
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern bool TmxFile2D_BeginLoad (IntPtr handle, IntPtr source);
+		internal static extern bool TmxFile2D_BeginLoad_File (IntPtr handle, IntPtr source);
 
 		/// <summary>
 		/// Load resource from stream. May be called from a worker thread. Return true if successful.
@@ -102,7 +111,19 @@ namespace Urho.Urho2D
 		public override bool BeginLoad (File source)
 		{
 			Runtime.ValidateRefCounted (this);
-			return TmxFile2D_BeginLoad (handle, (object)source == null ? IntPtr.Zero : source.Handle);
+			return TmxFile2D_BeginLoad_File (handle, (object)source == null ? IntPtr.Zero : source.Handle);
+		}
+
+		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern bool TmxFile2D_BeginLoad_MemoryBuffer (IntPtr handle, IntPtr source);
+
+		/// <summary>
+		/// Load resource from stream. May be called from a worker thread. Return true if successful.
+		/// </summary>
+		public override bool BeginLoad (MemoryBuffer source)
+		{
+			Runtime.ValidateRefCounted (this);
+			return TmxFile2D_BeginLoad_MemoryBuffer (handle, (object)source == null ? IntPtr.Zero : source.Handle);
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -213,6 +234,7 @@ namespace Urho.Urho2D
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

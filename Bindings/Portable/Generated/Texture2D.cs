@@ -23,12 +23,18 @@ namespace Urho.Urho2D
 	/// </summary>
 	public unsafe partial class Texture2D : Texture
 	{
+		unsafe partial void OnTexture2DCreated ();
+
+		[Preserve]
 		public Texture2D (IntPtr handle) : base (handle)
 		{
+			OnTexture2DCreated ();
 		}
 
+		[Preserve]
 		protected Texture2D (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnTexture2DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Urho2D
 			return Marshal.PtrToStringAnsi (Texture2D_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public Texture2D () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Urho2D
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr Texture2D_Texture2D (IntPtr context);
 
+		[Preserve]
 		public Texture2D (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(Texture2D));
 			handle = Texture2D_Texture2D ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnTexture2DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -94,7 +103,7 @@ namespace Urho.Urho2D
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern bool Texture2D_BeginLoad (IntPtr handle, IntPtr source);
+		internal static extern bool Texture2D_BeginLoad_File (IntPtr handle, IntPtr source);
 
 		/// <summary>
 		/// Load resource from stream. May be called from a worker thread. Return true if successful.
@@ -102,7 +111,19 @@ namespace Urho.Urho2D
 		public override bool BeginLoad (File source)
 		{
 			Runtime.ValidateRefCounted (this);
-			return Texture2D_BeginLoad (handle, (object)source == null ? IntPtr.Zero : source.Handle);
+			return Texture2D_BeginLoad_File (handle, (object)source == null ? IntPtr.Zero : source.Handle);
+		}
+
+		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern bool Texture2D_BeginLoad_MemoryBuffer (IntPtr handle, IntPtr source);
+
+		/// <summary>
+		/// Load resource from stream. May be called from a worker thread. Return true if successful.
+		/// </summary>
+		public override bool BeginLoad (MemoryBuffer source)
+		{
+			Runtime.ValidateRefCounted (this);
+			return Texture2D_BeginLoad_MemoryBuffer (handle, (object)source == null ? IntPtr.Zero : source.Handle);
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -215,6 +236,7 @@ namespace Urho.Urho2D
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

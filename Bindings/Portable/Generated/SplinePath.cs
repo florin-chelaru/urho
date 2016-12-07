@@ -23,12 +23,18 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class SplinePath : Component
 	{
+		unsafe partial void OnSplinePathCreated ();
+
+		[Preserve]
 		public SplinePath (IntPtr handle) : base (handle)
 		{
+			OnSplinePathCreated ();
 		}
 
+		[Preserve]
 		protected SplinePath (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnSplinePathCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho
 			return Marshal.PtrToStringAnsi (SplinePath_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public SplinePath () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr SplinePath_SplinePath (IntPtr context);
 
+		[Preserve]
 		public SplinePath (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(SplinePath));
 			handle = SplinePath_SplinePath ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnSplinePathCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -345,6 +354,7 @@ namespace Urho
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

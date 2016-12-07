@@ -23,12 +23,18 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class Texture3D : Texture
 	{
+		unsafe partial void OnTexture3DCreated ();
+
+		[Preserve]
 		public Texture3D (IntPtr handle) : base (handle)
 		{
+			OnTexture3DCreated ();
 		}
 
+		[Preserve]
 		protected Texture3D (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnTexture3DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho
 			return Marshal.PtrToStringAnsi (Texture3D_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public Texture3D () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr Texture3D_Texture3D (IntPtr context);
 
+		[Preserve]
 		public Texture3D (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(Texture3D));
 			handle = Texture3D_Texture3D ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnTexture3DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -94,7 +103,7 @@ namespace Urho
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern bool Texture3D_BeginLoad (IntPtr handle, IntPtr source);
+		internal static extern bool Texture3D_BeginLoad_File (IntPtr handle, IntPtr source);
 
 		/// <summary>
 		/// Load resource from stream. May be called from a worker thread. Return true if successful.
@@ -102,7 +111,19 @@ namespace Urho
 		public override bool BeginLoad (File source)
 		{
 			Runtime.ValidateRefCounted (this);
-			return Texture3D_BeginLoad (handle, (object)source == null ? IntPtr.Zero : source.Handle);
+			return Texture3D_BeginLoad_File (handle, (object)source == null ? IntPtr.Zero : source.Handle);
+		}
+
+		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern bool Texture3D_BeginLoad_MemoryBuffer (IntPtr handle, IntPtr source);
+
+		/// <summary>
+		/// Load resource from stream. May be called from a worker thread. Return true if successful.
+		/// </summary>
+		public override bool BeginLoad (MemoryBuffer source)
+		{
+			Runtime.ValidateRefCounted (this);
+			return Texture3D_BeginLoad_MemoryBuffer (handle, (object)source == null ? IntPtr.Zero : source.Handle);
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -189,6 +210,7 @@ namespace Urho
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

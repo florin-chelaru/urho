@@ -23,22 +23,30 @@ namespace Urho.Urho2D
 	/// </summary>
 	public unsafe partial class TmxObjectGroup2D : TmxLayer2D
 	{
+		unsafe partial void OnTmxObjectGroup2DCreated ();
+
+		[Preserve]
 		public TmxObjectGroup2D (IntPtr handle) : base (handle)
 		{
+			OnTmxObjectGroup2DCreated ();
 		}
 
+		[Preserve]
 		protected TmxObjectGroup2D (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnTmxObjectGroup2DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr TmxObjectGroup2D_TmxObjectGroup2D (IntPtr tmxFile);
 
+		[Preserve]
 		public TmxObjectGroup2D (TmxFile2D tmxFile) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(TmxObjectGroup2D));
 			handle = TmxObjectGroup2D_TmxObjectGroup2D ((object)tmxFile == null ? IntPtr.Zero : tmxFile.Handle);
 			Runtime.RegisterObject (this);
+			OnTmxObjectGroup2DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]

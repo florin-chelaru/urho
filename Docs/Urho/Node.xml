@@ -54,6 +54,11 @@ model.SetMaterial(material);]]></code>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Preserve</AttributeName>
+        </Attribute>
+      </Attributes>
       <Parameters />
       <Docs>
         <summary>
@@ -70,6 +75,11 @@ model.SetMaterial(material);]]></code>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Preserve</AttributeName>
+        </Attribute>
+      </Attributes>
       <Parameters>
         <Parameter Name="handle" Type="System.IntPtr" />
       </Parameters>
@@ -90,6 +100,11 @@ model.SetMaterial(material);]]></code>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Preserve</AttributeName>
+        </Attribute>
+      </Attributes>
       <Parameters>
         <Parameter Name="context" Type="Urho.Context" />
       </Parameters>
@@ -109,6 +124,11 @@ model.SetMaterial(material);]]></code>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Preserve</AttributeName>
+        </Attribute>
+      </Attributes>
       <Parameters>
         <Parameter Name="emptyFlag" Type="Urho.UrhoObjectFlag" />
       </Parameters>
@@ -483,8 +503,8 @@ model.SetMaterial(material);]]></code>
       </Docs>
     </Member>
     <Member MemberName="CreateChild">
-      <MemberSignature Language="C#" Value="public Urho.Node CreateChild (uint id, Urho.CreateMode mode);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class Urho.Node CreateChild(unsigned int32 id, valuetype Urho.CreateMode mode) cil managed" />
+      <MemberSignature Language="C#" Value="public Urho.Node CreateChild (uint id, Urho.CreateMode mode, bool temporary);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class Urho.Node CreateChild(unsigned int32 id, valuetype Urho.CreateMode mode, bool temporary) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -495,48 +515,46 @@ model.SetMaterial(material);]]></code>
       <Parameters>
         <Parameter Name="id" Type="System.UInt32" />
         <Parameter Name="mode" Type="Urho.CreateMode" />
+        <Parameter Name="temporary" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="id">identifier to assign to the child, if the node is attached to a scene, and the ID already exists, a new ID will be assigned.</param>
-        <param name="mode">
-          <para>Component and child node creation mode for networking.</para>
-          <para>
-          </para>
-        </param>
-        <summary>
-            Create a child node with specific ID.
-            </summary>
-        <returns>The created scene node.</returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="CreateChild">
-      <MemberSignature Language="C#" Value="public Urho.Node CreateChild (string name = &quot;&quot;, uint id = 0, Urho.CreateMode mode = Urho.CreateMode.Replicated);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class Urho.Node CreateChild(string name, unsigned int32 id, valuetype Urho.CreateMode mode) cil managed" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyVersion>1.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>Urho.Node</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="name" Type="System.String" />
-        <Parameter Name="id" Type="System.UInt32" />
-        <Parameter Name="mode" Type="Urho.CreateMode" />
-      </Parameters>
-      <Docs>
-        <param name="name">To be added.</param>
-        <param name="id">identifier to assign to the child, if the node is attached to a scene, and the ID already exists, a new ID will be assigned.</param>
-        <param name="mode">Component and child node creation mode for networking.</param>
-        <summary>Create a child node with a name, ID and creation mode.</summary>
+        <param name="id">To be added.</param>
+        <param name="mode">To be added.</param>
+        <param name="temporary">To be added.</param>
+        <summary>To be added.</summary>
         <returns>To be added.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateChild">
-      <MemberSignature Language="C#" Value="public Urho.Node CreateChild (string name, Urho.CreateMode mode, uint id);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class Urho.Node CreateChild(string name, valuetype Urho.CreateMode mode, unsigned int32 id) cil managed" />
+      <MemberSignature Language="C#" Value="public Urho.Node CreateChild (string name = &quot;&quot;, uint id = 0, Urho.CreateMode mode = Urho.CreateMode.Replicated, bool temporary = false);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class Urho.Node CreateChild(string name, unsigned int32 id, valuetype Urho.CreateMode mode, bool temporary) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Urho.Node</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="name" Type="System.String" />
+        <Parameter Name="id" Type="System.UInt32" />
+        <Parameter Name="mode" Type="Urho.CreateMode" />
+        <Parameter Name="temporary" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="name">To be added.</param>
+        <param name="id">To be added.</param>
+        <param name="mode">To be added.</param>
+        <param name="temporary">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CreateChild">
+      <MemberSignature Language="C#" Value="public Urho.Node CreateChild (string name, Urho.CreateMode mode, uint id, bool temporary);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class Urho.Node CreateChild(string name, valuetype Urho.CreateMode mode, unsigned int32 id, bool temporary) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -548,14 +566,14 @@ model.SetMaterial(material);]]></code>
         <Parameter Name="name" Type="System.String" />
         <Parameter Name="mode" Type="Urho.CreateMode" />
         <Parameter Name="id" Type="System.UInt32" />
+        <Parameter Name="temporary" Type="System.Boolean" />
       </Parameters>
       <Docs>
         <param name="name">To be added.</param>
-        <param name="mode">Component and child node creation mode for networking.</param>
-        <param name="id">identifier to assign to the child, if the node is attached to a scene, and the ID already exists, a new ID will be assigned.</param>
-        <summary>
-            Create a child scene node (with specified ID if provided).
-            </summary>
+        <param name="mode">To be added.</param>
+        <param name="id">To be added.</param>
+        <param name="temporary">To be added.</param>
+        <summary>To be added.</summary>
         <returns>To be added.</returns>
         <remarks>To be added.</remarks>
       </Docs>
@@ -681,6 +699,30 @@ planeObject.SetMaterial(cache.GetMaterial("Materials/StoneTiled.xml"));
         </remarks>
       </Docs>
     </Member>
+    <Member MemberName="CreateTemporaryChild">
+      <MemberSignature Language="C#" Value="public Urho.Node CreateTemporaryChild (string name, Urho.CreateMode mode, uint id);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class Urho.Node CreateTemporaryChild(string name, valuetype Urho.CreateMode mode, unsigned int32 id) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Urho.Node</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="name" Type="System.String" />
+        <Parameter Name="mode" Type="Urho.CreateMode" />
+        <Parameter Name="id" Type="System.UInt32" />
+      </Parameters>
+      <Docs>
+        <param name="name">To be added.</param>
+        <param name="mode">To be added.</param>
+        <param name="id">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
     <Member MemberName="Direction">
       <MemberSignature Language="C#" Value="public Urho.Vector3 Direction { get; }" />
       <MemberSignature Language="ILAsm" Value=".property instance valuetype Urho.Vector3 Direction" />
@@ -742,7 +784,7 @@ planeObject.SetMaterial(cache.GetMaterial("Materials/StoneTiled.xml"));
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Returns the node's last own enabled state. May be different than the value returned by IsEnabled when SetDeepEnabled has been used.</summary>
         <value>To be added.</value>
         <remarks>To be added.</remarks>
       </Docs>
@@ -1070,6 +1112,28 @@ planeObject.SetMaterial(cache.GetMaterial("Materials/StoneTiled.xml"));
       </ReturnValue>
       <Parameters>
         <Parameter Name="source" Type="Urho.IO.File" />
+        <Parameter Name="setInstanceDefault" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="source">To be added.</param>
+        <param name="setInstanceDefault">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Load">
+      <MemberSignature Language="C#" Value="public override bool Load (Urho.MemoryBuffer source, bool setInstanceDefault);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance bool Load(class Urho.MemoryBuffer source, bool setInstanceDefault) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="source" Type="Urho.MemoryBuffer" />
         <Parameter Name="setInstanceDefault" Type="System.Boolean" />
       </Parameters>
       <Docs>
@@ -2248,6 +2312,26 @@ planeObject.SetMaterial(cache.GetMaterial("Materials/StoneTiled.xml"));
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
+    <Member MemberName="Save">
+      <MemberSignature Language="C#" Value="public override bool Save (Urho.MemoryBuffer dest);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance bool Save(class Urho.MemoryBuffer dest) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="dest" Type="Urho.MemoryBuffer" />
+      </Parameters>
+      <Docs>
+        <param name="dest">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
     <Member MemberName="SaveDefaultAttributes">
       <MemberSignature Language="C#" Value="public override bool SaveDefaultAttributes ();" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance bool SaveDefaultAttributes() cil managed" />
@@ -2291,6 +2375,28 @@ planeObject.SetMaterial(cache.GetMaterial("Materials/StoneTiled.xml"));
         </remarks>
       </Docs>
     </Member>
+    <Member MemberName="SaveJson">
+      <MemberSignature Language="C#" Value="public virtual bool SaveJson (Urho.MemoryBuffer dest, string indentation);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool SaveJson(class Urho.MemoryBuffer dest, string indentation) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="dest" Type="Urho.MemoryBuffer" />
+        <Parameter Name="indentation" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="dest">To be added.</param>
+        <param name="indentation">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
     <Member MemberName="SaveXml">
       <MemberSignature Language="C#" Value="public override bool SaveXml (Urho.Resources.XmlElement dest);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance bool SaveXml(class Urho.Resources.XmlElement dest) cil managed" />
@@ -2323,6 +2429,28 @@ planeObject.SetMaterial(cache.GetMaterial("Materials/StoneTiled.xml"));
       </ReturnValue>
       <Parameters>
         <Parameter Name="dest" Type="Urho.IO.File" />
+        <Parameter Name="indentation" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="dest">To be added.</param>
+        <param name="indentation">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SaveXml">
+      <MemberSignature Language="C#" Value="public virtual bool SaveXml (Urho.MemoryBuffer dest, string indentation);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool SaveXml(class Urho.MemoryBuffer dest, string indentation) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="dest" Type="Urho.MemoryBuffer" />
         <Parameter Name="indentation" Type="System.String" />
       </Parameters>
       <Docs>
@@ -3744,6 +3872,11 @@ planeObject.SetMaterial(cache.GetMaterial("Materials/StoneTiled.xml"));
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Preserve</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>Urho.StringHash</ReturnType>
       </ReturnValue>
@@ -3995,7 +4128,7 @@ planeObject.SetMaterial(cache.GetMaterial("Materials/StoneTiled.xml"));
         <ReturnType>Urho.Matrix3x4</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Return world space transform matrix.</summary>
         <value>To be added.</value>
         <remarks>To be added.</remarks>
       </Docs>

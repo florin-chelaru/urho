@@ -23,12 +23,18 @@ namespace Urho.Urho2D
 	/// </summary>
 	public unsafe partial class ConstraintWeld2D : Constraint2D
 	{
+		unsafe partial void OnConstraintWeld2DCreated ();
+
+		[Preserve]
 		public ConstraintWeld2D (IntPtr handle) : base (handle)
 		{
+			OnConstraintWeld2DCreated ();
 		}
 
+		[Preserve]
 		protected ConstraintWeld2D (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnConstraintWeld2DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Urho2D
 			return Marshal.PtrToStringAnsi (ConstraintWeld2D_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public ConstraintWeld2D () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Urho2D
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr ConstraintWeld2D_ConstraintWeld2D (IntPtr context);
 
+		[Preserve]
 		public ConstraintWeld2D (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(ConstraintWeld2D));
 			handle = ConstraintWeld2D_ConstraintWeld2D ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnConstraintWeld2DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -177,6 +186,7 @@ namespace Urho.Urho2D
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

@@ -23,12 +23,18 @@ namespace Urho.Gui
 	/// </summary>
 	public unsafe partial class BorderImage : UIElement
 	{
+		unsafe partial void OnBorderImageCreated ();
+
+		[Preserve]
 		public BorderImage (IntPtr handle) : base (handle)
 		{
+			OnBorderImageCreated ();
 		}
 
+		[Preserve]
 		protected BorderImage (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnBorderImageCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Gui
 			return Marshal.PtrToStringAnsi (BorderImage_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public BorderImage () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Gui
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr BorderImage_BorderImage (IntPtr context);
 
+		[Preserve]
 		public BorderImage (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(BorderImage));
 			handle = BorderImage_BorderImage ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnBorderImageCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -309,6 +318,7 @@ namespace Urho.Gui
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

@@ -23,22 +23,28 @@ namespace Urho.Resources
 	/// </summary>
 	public unsafe partial class XmlElement
 	{
+		unsafe partial void OnXmlElementCreated ();
+
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr XmlElement_XMLElement ();
 
+		[Preserve]
 		public XmlElement ()
 		{
 			Runtime.Validate (typeof(XmlElement));
 			handle = XmlElement_XMLElement ();
+			OnXmlElementCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr XmlElement_XMLElement0 (ref Urho.Resources.XmlElement rhs);
 
+		[Preserve]
 		public XmlElement (Urho.Resources.XmlElement rhs)
 		{
 			Runtime.Validate (typeof(XmlElement));
 			handle = XmlElement_XMLElement0 (ref rhs);
+			OnXmlElementCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]

@@ -23,12 +23,18 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class Profiler : UrhoObject
 	{
+		unsafe partial void OnProfilerCreated ();
+
+		[Preserve]
 		public Profiler (IntPtr handle) : base (handle)
 		{
+			OnProfilerCreated ();
 		}
 
+		[Preserve]
 		protected Profiler (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnProfilerCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho
 			return Marshal.PtrToStringAnsi (Profiler_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public Profiler () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr Profiler_Profiler (IntPtr context);
 
+		[Preserve]
 		public Profiler (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(Profiler));
 			handle = Profiler_Profiler ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnProfilerCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -177,6 +186,7 @@ namespace Urho
 			}
 		}
 
+		[Preserve]
 		public static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

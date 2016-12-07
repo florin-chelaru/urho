@@ -23,12 +23,18 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class Skybox : StaticModel
 	{
+		unsafe partial void OnSkyboxCreated ();
+
+		[Preserve]
 		public Skybox (IntPtr handle) : base (handle)
 		{
+			OnSkyboxCreated ();
 		}
 
+		[Preserve]
 		protected Skybox (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnSkyboxCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho
 			return Marshal.PtrToStringAnsi (Skybox_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public Skybox () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr Skybox_Skybox (IntPtr context);
 
+		[Preserve]
 		public Skybox (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(Skybox));
 			handle = Skybox_Skybox ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnSkyboxCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -105,6 +114,7 @@ namespace Urho
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

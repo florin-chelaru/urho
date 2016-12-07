@@ -24,9 +24,12 @@ namespace Urho
 	[StructLayout (LayoutKind.Sequential)]
 	public unsafe partial struct ConvexData
 	{
+		unsafe partial void OnConvexDataCreated ();
+
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr ConvexData_ConvexData (IntPtr model, uint lodLevel);
 
+		[Preserve]
 		public ConvexData (Model model, uint lodLevel)
 		{
 			Runtime.Validate (typeof(ConvexData));
@@ -35,6 +38,7 @@ namespace Urho
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr ConvexData_ConvexData0 (IntPtr custom);
 
+		[Preserve]
 		public ConvexData (CustomGeometry custom)
 		{
 			Runtime.Validate (typeof(ConvexData));

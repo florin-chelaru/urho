@@ -348,6 +348,38 @@
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
+    <Member MemberName="DiffLitParticleAlphaSoft">
+      <MemberSignature Language="C#" Value="public static Urho.Technique DiffLitParticleAlphaSoft { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class Urho.Technique DiffLitParticleAlphaSoft" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Urho.Technique</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DiffLitParticleAlphaSoftExpand">
+      <MemberSignature Language="C#" Value="public static Urho.Technique DiffLitParticleAlphaSoftExpand { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class Urho.Technique DiffLitParticleAlphaSoftExpand" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Urho.Technique</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
     <Member MemberName="DiffMultiply">
       <MemberSignature Language="C#" Value="public static Urho.Technique DiffMultiply { get; }" />
       <MemberSignature Language="ILAsm" Value=".property class Urho.Technique DiffMultiply" />
@@ -786,6 +818,86 @@
             <img href="t_DiffUnlit.png" />
           </para>
         </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DiffUnlitParticleAdd">
+      <MemberSignature Language="C#" Value="public static Urho.Technique DiffUnlitParticleAdd { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class Urho.Technique DiffUnlitParticleAdd" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Urho.Technique</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DiffUnlitParticleAddSoft">
+      <MemberSignature Language="C#" Value="public static Urho.Technique DiffUnlitParticleAddSoft { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class Urho.Technique DiffUnlitParticleAddSoft" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Urho.Technique</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DiffUnlitParticleAlpha">
+      <MemberSignature Language="C#" Value="public static Urho.Technique DiffUnlitParticleAlpha { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class Urho.Technique DiffUnlitParticleAlpha" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Urho.Technique</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DiffUnlitParticleAlphaSoft">
+      <MemberSignature Language="C#" Value="public static Urho.Technique DiffUnlitParticleAlphaSoft { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class Urho.Technique DiffUnlitParticleAlphaSoft" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Urho.Technique</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DiffUnlitParticleAlphaSoftExpand">
+      <MemberSignature Language="C#" Value="public static Urho.Technique DiffUnlitParticleAlphaSoftExpand { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class Urho.Technique DiffUnlitParticleAlphaSoftExpand" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Urho.Technique</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
       </Docs>
     </Member>
     <Member MemberName="DiffVCol">

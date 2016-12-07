@@ -23,12 +23,18 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class OcclusionBuffer : UrhoObject
 	{
+		unsafe partial void OnOcclusionBufferCreated ();
+
+		[Preserve]
 		public OcclusionBuffer (IntPtr handle) : base (handle)
 		{
+			OnOcclusionBufferCreated ();
 		}
 
+		[Preserve]
 		protected OcclusionBuffer (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnOcclusionBufferCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho
 			return Marshal.PtrToStringAnsi (OcclusionBuffer_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public OcclusionBuffer () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr OcclusionBuffer_OcclusionBuffer (IntPtr context);
 
+		[Preserve]
 		public OcclusionBuffer (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(OcclusionBuffer));
 			handle = OcclusionBuffer_OcclusionBuffer ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnOcclusionBufferCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -357,6 +366,7 @@ namespace Urho
 			}
 		}
 
+		[Preserve]
 		public static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

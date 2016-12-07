@@ -23,12 +23,18 @@ namespace Urho.Navigation
 	/// </summary>
 	public unsafe partial class OffMeshConnection : Component
 	{
+		unsafe partial void OnOffMeshConnectionCreated ();
+
+		[Preserve]
 		public OffMeshConnection (IntPtr handle) : base (handle)
 		{
+			OnOffMeshConnectionCreated ();
 		}
 
+		[Preserve]
 		protected OffMeshConnection (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnOffMeshConnectionCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Navigation
 			return Marshal.PtrToStringAnsi (OffMeshConnection_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public OffMeshConnection () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Navigation
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr OffMeshConnection_OffMeshConnection (IntPtr context);
 
+		[Preserve]
 		public OffMeshConnection (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(OffMeshConnection));
 			handle = OffMeshConnection_OffMeshConnection ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnOffMeshConnectionCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -249,6 +258,7 @@ namespace Urho.Navigation
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

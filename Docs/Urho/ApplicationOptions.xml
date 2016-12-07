@@ -26,6 +26,19 @@
   </Docs>
   <Members>
     <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public ApplicationOptions ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
       <MemberSignature Language="C#" Value="public ApplicationOptions (string assetsFolder);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string assetsFolder) cil managed" />
       <MemberType>Constructor</MemberType>
@@ -39,24 +52,6 @@
         <param name="assetsFolder">This is usually the “Data” directory, but can be null if your application only requires the built-in assets.</param>
         <summary>Initializes the application options with a directory pointing to the assets folders (Usually the “Data” directory)</summary>
         <remarks>Constructs a new instance of <see cref="T:Urho.ApplicationOptions" /></remarks>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public ApplicationOptions (string[] assetsFolders);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string[] assetsFolders) cil managed" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyVersion>1.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="assetsFolders" Type="System.String[]" />
-      </Parameters>
-      <Docs>
-        <param name="assetsFolders">An array of directory names.   Each directory contains assets that your application can reference at runtime.</param>
-        <summary>Initializes the application options with a set of asset directories.</summary>
-        <remarks>
-          <para />
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="AdditionalFlags">

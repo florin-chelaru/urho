@@ -23,12 +23,18 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class Camera : Component
 	{
+		unsafe partial void OnCameraCreated ();
+
+		[Preserve]
 		public Camera (IntPtr handle) : base (handle)
 		{
+			OnCameraCreated ();
 		}
 
+		[Preserve]
 		protected Camera (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnCameraCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho
 			return Marshal.PtrToStringAnsi (Camera_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public Camera () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr Camera_Camera (IntPtr context);
 
+		[Preserve]
 		public Camera (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(Camera));
 			handle = Camera_Camera ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnCameraCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -876,6 +885,7 @@ namespace Urho
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

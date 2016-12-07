@@ -23,12 +23,18 @@ namespace Urho.Urho2D
 	/// </summary>
 	public unsafe partial class AnimatedSprite2D : StaticSprite2D
 	{
+		unsafe partial void OnAnimatedSprite2DCreated ();
+
+		[Preserve]
 		public AnimatedSprite2D (IntPtr handle) : base (handle)
 		{
+			OnAnimatedSprite2DCreated ();
 		}
 
+		[Preserve]
 		protected AnimatedSprite2D (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnAnimatedSprite2DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Urho2D
 			return Marshal.PtrToStringAnsi (AnimatedSprite2D_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public AnimatedSprite2D () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Urho2D
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr AnimatedSprite2D_AnimatedSprite2D (IntPtr context);
 
+		[Preserve]
 		public AnimatedSprite2D (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(AnimatedSprite2D));
 			handle = AnimatedSprite2D_AnimatedSprite2D ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnAnimatedSprite2DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -261,6 +270,7 @@ namespace Urho.Urho2D
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

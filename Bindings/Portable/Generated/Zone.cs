@@ -23,12 +23,18 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class Zone : Drawable
 	{
+		unsafe partial void OnZoneCreated ();
+
+		[Preserve]
 		public Zone (IntPtr handle) : base (handle)
 		{
+			OnZoneCreated ();
 		}
 
+		[Preserve]
 		protected Zone (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnZoneCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho
 			return Marshal.PtrToStringAnsi (Zone_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public Zone () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr Zone_Zone (IntPtr context);
 
+		[Preserve]
 		public Zone (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(Zone));
 			handle = Zone_Zone ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnZoneCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -453,6 +462,7 @@ namespace Urho
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

@@ -23,12 +23,18 @@ namespace Urho.Navigation
 	/// </summary>
 	public unsafe partial class CrowdAgent : Component
 	{
+		unsafe partial void OnCrowdAgentCreated ();
+
+		[Preserve]
 		public CrowdAgent (IntPtr handle) : base (handle)
 		{
+			OnCrowdAgentCreated ();
 		}
 
+		[Preserve]
 		protected CrowdAgent (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnCrowdAgentCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Navigation
 			return Marshal.PtrToStringAnsi (CrowdAgent_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public CrowdAgent () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Navigation
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr CrowdAgent_CrowdAgent (IntPtr context);
 
+		[Preserve]
 		public CrowdAgent (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(CrowdAgent));
 			handle = CrowdAgent_CrowdAgent ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnCrowdAgentCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -549,6 +558,7 @@ namespace Urho.Navigation
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

@@ -23,22 +23,30 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class ShaderVariation : RefCounted
 	{
+		unsafe partial void OnShaderVariationCreated ();
+
+		[Preserve]
 		public ShaderVariation (IntPtr handle) : base (handle)
 		{
+			OnShaderVariationCreated ();
 		}
 
+		[Preserve]
 		protected ShaderVariation (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnShaderVariationCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr ShaderVariation_ShaderVariation (IntPtr owner, ShaderType type);
 
+		[Preserve]
 		public ShaderVariation (Shader owner, ShaderType type) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(ShaderVariation));
 			handle = ShaderVariation_ShaderVariation ((object)owner == null ? IntPtr.Zero : owner.Handle, type);
 			Runtime.RegisterObject (this);
+			OnShaderVariationCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]

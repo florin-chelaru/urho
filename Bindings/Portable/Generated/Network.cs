@@ -23,12 +23,18 @@ namespace Urho.Network
 	/// </summary>
 	public unsafe partial class Network : UrhoObject
 	{
+		unsafe partial void OnNetworkCreated ();
+
+		[Preserve]
 		public Network (IntPtr handle) : base (handle)
 		{
+			OnNetworkCreated ();
 		}
 
+		[Preserve]
 		protected Network (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnNetworkCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Network
 			return Marshal.PtrToStringAnsi (Network_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public Network () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Network
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr Network_Network (IntPtr context);
 
+		[Preserve]
 		public Network (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(Network));
 			handle = Network_Network ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnNetworkCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -345,6 +354,7 @@ namespace Urho.Network
 			}
 		}
 
+		[Preserve]
 		public static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

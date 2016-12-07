@@ -23,22 +23,30 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class RenderPath : RefCounted
 	{
+		unsafe partial void OnRenderPathCreated ();
+
+		[Preserve]
 		public RenderPath (IntPtr handle) : base (handle)
 		{
+			OnRenderPathCreated ();
 		}
 
+		[Preserve]
 		protected RenderPath (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnRenderPathCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr RenderPath_RenderPath ();
 
+		[Preserve]
 		public RenderPath () : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(RenderPath));
 			handle = RenderPath_RenderPath ();
 			Runtime.RegisterObject (this);
+			OnRenderPathCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]

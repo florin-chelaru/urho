@@ -23,6 +23,11 @@
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Preserve</AttributeName>
+        </Attribute>
+      </Attributes>
       <Parameters>
         <Parameter Name="handle" Type="System.IntPtr" />
       </Parameters>
@@ -43,6 +48,11 @@
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Preserve</AttributeName>
+        </Attribute>
+      </Attributes>
       <Parameters>
         <Parameter Name="emptyFlag" Type="Urho.UrhoObjectFlag" />
       </Parameters>
@@ -63,6 +73,11 @@
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Preserve</AttributeName>
+        </Attribute>
+      </Attributes>
       <Parameters>
         <Parameter Name="context" Type="Urho.Context" />
         <Parameter Name="fileName" Type="System.String" />
@@ -90,6 +105,27 @@
       <Parameters>
         <Parameter Name="graphics" Type="Urho.Graphics" />
         <Parameter Name="source" Type="Urho.IO.File" />
+      </Parameters>
+      <Docs>
+        <param name="graphics">To be added.</param>
+        <param name="source">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="LoadShaders">
+      <MemberSignature Language="C#" Value="public static void LoadShaders (Urho.Graphics graphics, Urho.MemoryBuffer source);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void LoadShaders(class Urho.Graphics graphics, class Urho.MemoryBuffer source) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="graphics" Type="Urho.Graphics" />
+        <Parameter Name="source" Type="Urho.MemoryBuffer" />
       </Parameters>
       <Docs>
         <param name="graphics">To be added.</param>
@@ -178,6 +214,11 @@
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Preserve</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>Urho.StringHash</ReturnType>
       </ReturnValue>

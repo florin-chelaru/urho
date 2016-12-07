@@ -104,6 +104,11 @@
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Preserve</AttributeName>
+        </Attribute>
+      </Attributes>
       <Parameters />
       <Docs>
         <summary>
@@ -120,6 +125,11 @@
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Preserve</AttributeName>
+        </Attribute>
+      </Attributes>
       <Parameters>
         <Parameter Name="handle" Type="System.IntPtr" />
       </Parameters>
@@ -140,6 +150,11 @@
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Preserve</AttributeName>
+        </Attribute>
+      </Attributes>
       <Parameters>
         <Parameter Name="context" Type="Urho.Context" />
       </Parameters>
@@ -159,6 +174,11 @@
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Preserve</AttributeName>
+        </Attribute>
+      </Attributes>
       <Parameters>
         <Parameter Name="emptyFlag" Type="Urho.UrhoObjectFlag" />
       </Parameters>
@@ -259,7 +279,9 @@
         <ReturnType>Urho.IntVector2</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Return root element custom size. Returns 0,0 when custom size is not being used and automatic resizing according to window size is in use instead (default.)
+            Or
+            Set custom size of the root element. This disables automatic resizing of the root element according to window size. Set custom size 0,0 to return to automatic resizing.</summary>
         <value>To be added.</value>
         <remarks>To be added.</remarks>
       </Docs>
@@ -568,6 +590,28 @@
       </Docs>
     </Member>
     <Member MemberName="LoadLayout">
+      <MemberSignature Language="C#" Value="public Urho.Gui.UIElement LoadLayout (Urho.MemoryBuffer source, Urho.Resources.XmlFile styleFile);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class Urho.Gui.UIElement LoadLayout(class Urho.MemoryBuffer source, class Urho.Resources.XmlFile styleFile) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Urho.Gui.UIElement</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="source" Type="Urho.MemoryBuffer" />
+        <Parameter Name="styleFile" Type="Urho.Resources.XmlFile" />
+      </Parameters>
+      <Docs>
+        <param name="source">To be added.</param>
+        <param name="styleFile">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="LoadLayout">
       <MemberSignature Language="C#" Value="public Urho.Gui.UIElement LoadLayout (Urho.Resources.XmlFile file, Urho.Resources.XmlFile styleFile);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class Urho.Gui.UIElement LoadLayout(class Urho.Resources.XmlFile file, class Urho.Resources.XmlFile styleFile) cil managed" />
       <MemberType>Method</MemberType>
@@ -763,6 +807,28 @@
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
+    <Member MemberName="SaveLayout">
+      <MemberSignature Language="C#" Value="public bool SaveLayout (Urho.MemoryBuffer dest, Urho.Gui.UIElement element);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool SaveLayout(class Urho.MemoryBuffer dest, class Urho.Gui.UIElement element) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="dest" Type="Urho.MemoryBuffer" />
+        <Parameter Name="element" Type="Urho.Gui.UIElement" />
+      </Parameters>
+      <Docs>
+        <param name="dest">To be added.</param>
+        <param name="element">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
     <Member MemberName="Scale">
       <MemberSignature Language="C#" Value="public float Scale { get; set; }" />
       <MemberSignature Language="ILAsm" Value=".property instance float32 Scale" />
@@ -774,7 +840,9 @@
         <ReturnType>System.Single</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Return current UI scale.
+            Or
+            Set %UI scale. 1.0 is default (pixel perfect). Resize the root element to match.</summary>
         <value>To be added.</value>
         <remarks>To be added.</remarks>
       </Docs>
@@ -1039,6 +1107,11 @@
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Preserve</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>Urho.StringHash</ReturnType>
       </ReturnValue>

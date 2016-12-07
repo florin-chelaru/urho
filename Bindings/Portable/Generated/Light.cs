@@ -23,12 +23,18 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class Light : Drawable
 	{
+		unsafe partial void OnLightCreated ();
+
+		[Preserve]
 		public Light (IntPtr handle) : base (handle)
 		{
+			OnLightCreated ();
 		}
 
+		[Preserve]
 		protected Light (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnLightCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho
 			return Marshal.PtrToStringAnsi (Light_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public Light () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr Light_Light (IntPtr context);
 
+		[Preserve]
 		public Light (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(Light));
 			handle = Light_Light ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnLightCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -813,6 +822,7 @@ namespace Urho
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

@@ -23,12 +23,18 @@ namespace Urho.Gui
 	/// </summary>
 	public unsafe partial class FileSelector : UrhoObject
 	{
+		unsafe partial void OnFileSelectorCreated ();
+
+		[Preserve]
 		public FileSelector (IntPtr handle) : base (handle)
 		{
+			OnFileSelectorCreated ();
 		}
 
+		[Preserve]
 		protected FileSelector (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnFileSelectorCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Gui
 			return Marshal.PtrToStringAnsi (FileSelector_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public FileSelector () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Gui
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr FileSelector_FileSelector (IntPtr context);
 
+		[Preserve]
 		public FileSelector (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(FileSelector));
 			handle = FileSelector_FileSelector ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnFileSelectorCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -381,6 +390,7 @@ namespace Urho.Gui
 			}
 		}
 
+		[Preserve]
 		public static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

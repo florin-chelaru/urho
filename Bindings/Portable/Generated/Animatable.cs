@@ -23,12 +23,18 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class Animatable : Serializable
 	{
+		unsafe partial void OnAnimatableCreated ();
+
+		[Preserve]
 		public Animatable (IntPtr handle) : base (handle)
 		{
+			OnAnimatableCreated ();
 		}
 
+		[Preserve]
 		protected Animatable (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnAnimatableCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -307,6 +313,7 @@ namespace Urho
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

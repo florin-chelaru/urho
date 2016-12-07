@@ -23,12 +23,18 @@ namespace Urho.Navigation
 	/// </summary>
 	public unsafe partial class NavArea : Component
 	{
+		unsafe partial void OnNavAreaCreated ();
+
+		[Preserve]
 		public NavArea (IntPtr handle) : base (handle)
 		{
+			OnNavAreaCreated ();
 		}
 
+		[Preserve]
 		protected NavArea (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnNavAreaCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Navigation
 			return Marshal.PtrToStringAnsi (NavArea_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public NavArea () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Navigation
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr NavArea_NavArea (IntPtr param1);
 
+		[Preserve]
 		public NavArea (Context param1) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(NavArea));
 			handle = NavArea_NavArea ((object)param1 == null ? IntPtr.Zero : param1.Handle);
 			Runtime.RegisterObject (this);
+			OnNavAreaCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -177,6 +186,7 @@ namespace Urho.Navigation
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

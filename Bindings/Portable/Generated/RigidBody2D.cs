@@ -23,12 +23,18 @@ namespace Urho.Urho2D
 	/// </summary>
 	public unsafe partial class RigidBody2D : Component
 	{
+		unsafe partial void OnRigidBody2DCreated ();
+
+		[Preserve]
 		public RigidBody2D (IntPtr handle) : base (handle)
 		{
+			OnRigidBody2DCreated ();
 		}
 
+		[Preserve]
 		protected RigidBody2D (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnRigidBody2DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Urho2D
 			return Marshal.PtrToStringAnsi (RigidBody2D_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public RigidBody2D () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Urho2D
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr RigidBody2D_RigidBody2D (IntPtr context);
 
+		[Preserve]
 		public RigidBody2D (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(RigidBody2D));
 			handle = RigidBody2D_RigidBody2D ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnRigidBody2DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -611,6 +620,7 @@ namespace Urho.Urho2D
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

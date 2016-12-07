@@ -23,12 +23,18 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class TextureCube : Texture
 	{
+		unsafe partial void OnTextureCubeCreated ();
+
+		[Preserve]
 		public TextureCube (IntPtr handle) : base (handle)
 		{
+			OnTextureCubeCreated ();
 		}
 
+		[Preserve]
 		protected TextureCube (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnTextureCubeCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho
 			return Marshal.PtrToStringAnsi (TextureCube_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public TextureCube () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr TextureCube_TextureCube (IntPtr context);
 
+		[Preserve]
 		public TextureCube (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(TextureCube));
 			handle = TextureCube_TextureCube ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnTextureCubeCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -94,7 +103,7 @@ namespace Urho
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern bool TextureCube_BeginLoad (IntPtr handle, IntPtr source);
+		internal static extern bool TextureCube_BeginLoad_File (IntPtr handle, IntPtr source);
 
 		/// <summary>
 		/// Load resource from stream. May be called from a worker thread. Return true if successful.
@@ -102,7 +111,19 @@ namespace Urho
 		public override bool BeginLoad (File source)
 		{
 			Runtime.ValidateRefCounted (this);
-			return TextureCube_BeginLoad (handle, (object)source == null ? IntPtr.Zero : source.Handle);
+			return TextureCube_BeginLoad_File (handle, (object)source == null ? IntPtr.Zero : source.Handle);
+		}
+
+		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern bool TextureCube_BeginLoad_MemoryBuffer (IntPtr handle, IntPtr source);
+
+		/// <summary>
+		/// Load resource from stream. May be called from a worker thread. Return true if successful.
+		/// </summary>
+		public override bool BeginLoad (MemoryBuffer source)
+		{
+			Runtime.ValidateRefCounted (this);
+			return TextureCube_BeginLoad_MemoryBuffer (handle, (object)source == null ? IntPtr.Zero : source.Handle);
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -154,7 +175,7 @@ namespace Urho
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern bool TextureCube_SetData0 (IntPtr handle, CubeMapFace face, IntPtr source);
+		internal static extern bool TextureCube_SetData0_File (IntPtr handle, CubeMapFace face, IntPtr source);
 
 		/// <summary>
 		/// Set data of one face from a stream. Return true if successful.
@@ -162,7 +183,19 @@ namespace Urho
 		public bool SetData (CubeMapFace face, File source)
 		{
 			Runtime.ValidateRefCounted (this);
-			return TextureCube_SetData0 (handle, face, (object)source == null ? IntPtr.Zero : source.Handle);
+			return TextureCube_SetData0_File (handle, face, (object)source == null ? IntPtr.Zero : source.Handle);
+		}
+
+		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern bool TextureCube_SetData0_MemoryBuffer (IntPtr handle, CubeMapFace face, IntPtr source);
+
+		/// <summary>
+		/// Set data of one face from a stream. Return true if successful.
+		/// </summary>
+		public bool SetData (CubeMapFace face, MemoryBuffer source)
+		{
+			Runtime.ValidateRefCounted (this);
+			return TextureCube_SetData0_MemoryBuffer (handle, face, (object)source == null ? IntPtr.Zero : source.Handle);
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -225,6 +258,7 @@ namespace Urho
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

@@ -23,22 +23,30 @@ namespace Urho.Urho2D
 	/// </summary>
 	public unsafe partial class Tile2D : RefCounted
 	{
+		unsafe partial void OnTile2DCreated ();
+
+		[Preserve]
 		public Tile2D (IntPtr handle) : base (handle)
 		{
+			OnTile2DCreated ();
 		}
 
+		[Preserve]
 		protected Tile2D (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnTile2DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr Tile2D_Tile2D ();
 
+		[Preserve]
 		public Tile2D () : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(Tile2D));
 			handle = Tile2D_Tile2D ();
 			Runtime.RegisterObject (this);
+			OnTile2DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]

@@ -23,12 +23,18 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class DebugHud : UrhoObject
 	{
+		unsafe partial void OnDebugHudCreated ();
+
+		[Preserve]
 		public DebugHud (IntPtr handle) : base (handle)
 		{
+			OnDebugHudCreated ();
 		}
 
+		[Preserve]
 		protected DebugHud (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnDebugHudCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho
 			return Marshal.PtrToStringAnsi (DebugHud_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public DebugHud () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr DebugHud_DebugHud (IntPtr context);
 
+		[Preserve]
 		public DebugHud (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(DebugHud));
 			handle = DebugHud_DebugHud ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnDebugHudCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -333,6 +342,7 @@ namespace Urho
 			}
 		}
 
+		[Preserve]
 		public static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

@@ -23,12 +23,18 @@ namespace Urho.Gui
 	/// </summary>
 	public unsafe partial class MessageBox : UrhoObject
 	{
+		unsafe partial void OnMessageBoxCreated ();
+
+		[Preserve]
 		public MessageBox (IntPtr handle) : base (handle)
 		{
+			OnMessageBoxCreated ();
 		}
 
+		[Preserve]
 		protected MessageBox (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnMessageBoxCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -70,11 +76,13 @@ namespace Urho.Gui
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr MessageBox_MessageBox (IntPtr context, string messageString, string titleString, IntPtr layoutFile, IntPtr styleFile);
 
+		[Preserve]
 		public MessageBox (Context context, string messageString, string titleString, Urho.Resources.XmlFile layoutFile, Urho.Resources.XmlFile styleFile) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(MessageBox));
 			handle = MessageBox_MessageBox ((object)context == null ? IntPtr.Zero : context.Handle, messageString, titleString, (object)layoutFile == null ? IntPtr.Zero : layoutFile.Handle, (object)styleFile == null ? IntPtr.Zero : styleFile.Handle);
 			Runtime.RegisterObject (this);
+			OnMessageBoxCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -161,6 +169,7 @@ namespace Urho.Gui
 			}
 		}
 
+		[Preserve]
 		public static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

@@ -23,12 +23,18 @@ namespace Urho.Resources
 	/// </summary>
 	public unsafe partial class XmlFile : Resource
 	{
+		unsafe partial void OnXmlFileCreated ();
+
+		[Preserve]
 		public XmlFile (IntPtr handle) : base (handle)
 		{
+			OnXmlFileCreated ();
 		}
 
+		[Preserve]
 		protected XmlFile (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnXmlFileCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Resources
 			return Marshal.PtrToStringAnsi (XmlFile_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public XmlFile () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Resources
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr XmlFile_XMLFile (IntPtr context);
 
+		[Preserve]
 		public XmlFile (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(XmlFile));
 			handle = XmlFile_XMLFile ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnXmlFileCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -94,7 +103,7 @@ namespace Urho.Resources
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern bool XmlFile_BeginLoad (IntPtr handle, IntPtr source);
+		internal static extern bool XmlFile_BeginLoad_File (IntPtr handle, IntPtr source);
 
 		/// <summary>
 		/// Load resource from stream. May be called from a worker thread. Return true if successful.
@@ -102,11 +111,23 @@ namespace Urho.Resources
 		public override bool BeginLoad (File source)
 		{
 			Runtime.ValidateRefCounted (this);
-			return XmlFile_BeginLoad (handle, (object)source == null ? IntPtr.Zero : source.Handle);
+			return XmlFile_BeginLoad_File (handle, (object)source == null ? IntPtr.Zero : source.Handle);
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern bool XmlFile_Save (IntPtr handle, IntPtr dest);
+		internal static extern bool XmlFile_BeginLoad_MemoryBuffer (IntPtr handle, IntPtr source);
+
+		/// <summary>
+		/// Load resource from stream. May be called from a worker thread. Return true if successful.
+		/// </summary>
+		public override bool BeginLoad (MemoryBuffer source)
+		{
+			Runtime.ValidateRefCounted (this);
+			return XmlFile_BeginLoad_MemoryBuffer (handle, (object)source == null ? IntPtr.Zero : source.Handle);
+		}
+
+		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern bool XmlFile_Save_File (IntPtr handle, IntPtr dest);
 
 		/// <summary>
 		/// Save resource with default indentation (one tab). Return true if successful.
@@ -114,11 +135,23 @@ namespace Urho.Resources
 		public override bool Save (File dest)
 		{
 			Runtime.ValidateRefCounted (this);
-			return XmlFile_Save (handle, (object)dest == null ? IntPtr.Zero : dest.Handle);
+			return XmlFile_Save_File (handle, (object)dest == null ? IntPtr.Zero : dest.Handle);
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern bool XmlFile_Save0 (IntPtr handle, IntPtr dest, string indentation);
+		internal static extern bool XmlFile_Save_MemoryBuffer (IntPtr handle, IntPtr dest);
+
+		/// <summary>
+		/// Save resource with default indentation (one tab). Return true if successful.
+		/// </summary>
+		public override bool Save (MemoryBuffer dest)
+		{
+			Runtime.ValidateRefCounted (this);
+			return XmlFile_Save_MemoryBuffer (handle, (object)dest == null ? IntPtr.Zero : dest.Handle);
+		}
+
+		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern bool XmlFile_Save0_File (IntPtr handle, IntPtr dest, string indentation);
 
 		/// <summary>
 		/// Save resource with user-defined indentation. Return true if successful.
@@ -126,7 +159,19 @@ namespace Urho.Resources
 		public bool Save (File dest, string indentation)
 		{
 			Runtime.ValidateRefCounted (this);
-			return XmlFile_Save0 (handle, (object)dest == null ? IntPtr.Zero : dest.Handle, indentation);
+			return XmlFile_Save0_File (handle, (object)dest == null ? IntPtr.Zero : dest.Handle, indentation);
+		}
+
+		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern bool XmlFile_Save0_MemoryBuffer (IntPtr handle, IntPtr dest, string indentation);
+
+		/// <summary>
+		/// Save resource with user-defined indentation. Return true if successful.
+		/// </summary>
+		public bool Save (MemoryBuffer dest, string indentation)
+		{
+			Runtime.ValidateRefCounted (this);
+			return XmlFile_Save0_MemoryBuffer (handle, (object)dest == null ? IntPtr.Zero : dest.Handle, indentation);
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -177,6 +222,7 @@ namespace Urho.Resources
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

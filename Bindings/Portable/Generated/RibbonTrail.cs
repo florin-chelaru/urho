@@ -23,12 +23,18 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class RibbonTrail : Drawable
 	{
+		unsafe partial void OnRibbonTrailCreated ();
+
+		[Preserve]
 		public RibbonTrail (IntPtr handle) : base (handle)
 		{
+			OnRibbonTrailCreated ();
 		}
 
+		[Preserve]
 		protected RibbonTrail (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnRibbonTrailCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho
 			return Marshal.PtrToStringAnsi (RibbonTrail_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public RibbonTrail () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr RibbonTrail_RibbonTrail (IntPtr context);
 
+		[Preserve]
 		public RibbonTrail (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(RibbonTrail));
 			handle = RibbonTrail_RibbonTrail ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnRibbonTrailCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -489,6 +498,7 @@ namespace Urho
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

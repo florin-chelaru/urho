@@ -23,12 +23,18 @@ namespace Urho.Urho2D
 	/// </summary>
 	public unsafe partial class CollisionEdge2D : CollisionShape2D
 	{
+		unsafe partial void OnCollisionEdge2DCreated ();
+
+		[Preserve]
 		public CollisionEdge2D (IntPtr handle) : base (handle)
 		{
+			OnCollisionEdge2DCreated ();
 		}
 
+		[Preserve]
 		protected CollisionEdge2D (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnCollisionEdge2DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Urho2D
 			return Marshal.PtrToStringAnsi (CollisionEdge2D_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public CollisionEdge2D () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Urho2D
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr CollisionEdge2D_CollisionEdge2D (IntPtr context);
 
+		[Preserve]
 		public CollisionEdge2D (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(CollisionEdge2D));
 			handle = CollisionEdge2D_CollisionEdge2D ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnCollisionEdge2DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -165,6 +174,7 @@ namespace Urho.Urho2D
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

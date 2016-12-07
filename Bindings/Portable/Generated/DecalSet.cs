@@ -23,12 +23,18 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class DecalSet : Drawable
 	{
+		unsafe partial void OnDecalSetCreated ();
+
+		[Preserve]
 		public DecalSet (IntPtr handle) : base (handle)
 		{
+			OnDecalSetCreated ();
 		}
 
+		[Preserve]
 		protected DecalSet (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnDecalSetCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho
 			return Marshal.PtrToStringAnsi (DecalSet_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public DecalSet () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr DecalSet_DecalSet (IntPtr context);
 
+		[Preserve]
 		public DecalSet (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(DecalSet));
 			handle = DecalSet_DecalSet ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnDecalSetCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -321,6 +330,7 @@ namespace Urho
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

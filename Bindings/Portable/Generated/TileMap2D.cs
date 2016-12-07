@@ -23,12 +23,18 @@ namespace Urho.Urho2D
 	/// </summary>
 	public unsafe partial class TileMap2D : Component
 	{
+		unsafe partial void OnTileMap2DCreated ();
+
+		[Preserve]
 		public TileMap2D (IntPtr handle) : base (handle)
 		{
+			OnTileMap2DCreated ();
 		}
 
+		[Preserve]
 		protected TileMap2D (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnTileMap2DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Urho2D
 			return Marshal.PtrToStringAnsi (TileMap2D_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public TileMap2D () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Urho2D
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr TileMap2D_TileMap2D (IntPtr context);
 
+		[Preserve]
 		public TileMap2D (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(TileMap2D));
 			handle = TileMap2D_TileMap2D ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnTileMap2DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -213,6 +222,7 @@ namespace Urho.Urho2D
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

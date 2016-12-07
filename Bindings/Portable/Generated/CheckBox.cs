@@ -23,12 +23,18 @@ namespace Urho.Gui
 	/// </summary>
 	public unsafe partial class CheckBox : BorderImage
 	{
+		unsafe partial void OnCheckBoxCreated ();
+
+		[Preserve]
 		public CheckBox (IntPtr handle) : base (handle)
 		{
+			OnCheckBoxCreated ();
 		}
 
+		[Preserve]
 		protected CheckBox (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnCheckBoxCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Gui
 			return Marshal.PtrToStringAnsi (CheckBox_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public CheckBox () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Gui
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr CheckBox_CheckBox (IntPtr context);
 
+		[Preserve]
 		public CheckBox (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(CheckBox));
 			handle = CheckBox_CheckBox ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnCheckBoxCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -189,6 +198,7 @@ namespace Urho.Gui
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

@@ -23,12 +23,18 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class UrhoConsole : UrhoObject
 	{
+		unsafe partial void OnUrhoConsoleCreated ();
+
+		[Preserve]
 		public UrhoConsole (IntPtr handle) : base (handle)
 		{
+			OnUrhoConsoleCreated ();
 		}
 
+		[Preserve]
 		protected UrhoConsole (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnUrhoConsoleCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho
 			return Marshal.PtrToStringAnsi (UrhoConsole_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public UrhoConsole () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr UrhoConsole_Console (IntPtr context);
 
+		[Preserve]
 		public UrhoConsole (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(UrhoConsole));
 			handle = UrhoConsole_Console ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnUrhoConsoleCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -381,6 +390,7 @@ namespace Urho
 			}
 		}
 
+		[Preserve]
 		public static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

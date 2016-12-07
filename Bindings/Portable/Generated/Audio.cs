@@ -23,12 +23,18 @@ namespace Urho.Audio
 	/// </summary>
 	public unsafe partial class Audio : UrhoObject
 	{
+		unsafe partial void OnAudioCreated ();
+
+		[Preserve]
 		public Audio (IntPtr handle) : base (handle)
 		{
+			OnAudioCreated ();
 		}
 
+		[Preserve]
 		protected Audio (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnAudioCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Audio
 			return Marshal.PtrToStringAnsi (Audio_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public Audio () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Audio
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr Audio_Audio (IntPtr context);
 
+		[Preserve]
 		public Audio (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(Audio));
 			handle = Audio_Audio ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnAudioCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -383,6 +392,7 @@ namespace Urho.Audio
 			}
 		}
 
+		[Preserve]
 		public static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

@@ -76,7 +76,7 @@ namespace Urho {
 		/// <summary>
 		/// Create a child scene node (with specified ID if provided).
 		/// </summary>
-		public Node CreateChild (string name = "", uint id = 0, CreateMode mode = CreateMode.Replicated)
+		public Node CreateChild (string name = "", uint id = 0, CreateMode mode = CreateMode.Replicated, bool temporary = false)
 		{
 			Runtime.ValidateRefCounted(this);
 			return CreateChild (name, mode, id);

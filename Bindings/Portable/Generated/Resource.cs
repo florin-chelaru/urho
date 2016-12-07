@@ -23,12 +23,18 @@ namespace Urho.Resources
 	/// </summary>
 	public unsafe partial class Resource : UrhoObject
 	{
+		unsafe partial void OnResourceCreated ();
+
+		[Preserve]
 		public Resource (IntPtr handle) : base (handle)
 		{
+			OnResourceCreated ();
 		}
 
+		[Preserve]
 		protected Resource (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnResourceCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Resources
 			return Marshal.PtrToStringAnsi (Resource_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public Resource () : this (Application.CurrentContext)
 		{
 		}
@@ -74,15 +81,17 @@ namespace Urho.Resources
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr Resource_Resource (IntPtr context);
 
+		[Preserve]
 		public Resource (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(Resource));
 			handle = Resource_Resource ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnResourceCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern bool Resource_Load (IntPtr handle, IntPtr source);
+		internal static extern bool Resource_Load_File (IntPtr handle, IntPtr source);
 
 		/// <summary>
 		/// Load resource synchronously. Call both BeginLoad()
@@ -92,11 +101,25 @@ namespace Urho.Resources
 		public bool Load (File source)
 		{
 			Runtime.ValidateRefCounted (this);
-			return Resource_Load (handle, (object)source == null ? IntPtr.Zero : source.Handle);
+			return Resource_Load_File (handle, (object)source == null ? IntPtr.Zero : source.Handle);
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern bool Resource_BeginLoad (IntPtr handle, IntPtr source);
+		internal static extern bool Resource_Load_MemoryBuffer (IntPtr handle, IntPtr source);
+
+		/// <summary>
+		/// Load resource synchronously. Call both BeginLoad()
+		/// &
+		/// EndLoad() and return true if both succeeded.
+		/// </summary>
+		public bool Load (MemoryBuffer source)
+		{
+			Runtime.ValidateRefCounted (this);
+			return Resource_Load_MemoryBuffer (handle, (object)source == null ? IntPtr.Zero : source.Handle);
+		}
+
+		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern bool Resource_BeginLoad_File (IntPtr handle, IntPtr source);
 
 		/// <summary>
 		/// Load resource from stream. May be called from a worker thread. Return true if successful.
@@ -104,7 +127,19 @@ namespace Urho.Resources
 		public virtual bool BeginLoad (File source)
 		{
 			Runtime.ValidateRefCounted (this);
-			return Resource_BeginLoad (handle, (object)source == null ? IntPtr.Zero : source.Handle);
+			return Resource_BeginLoad_File (handle, (object)source == null ? IntPtr.Zero : source.Handle);
+		}
+
+		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern bool Resource_BeginLoad_MemoryBuffer (IntPtr handle, IntPtr source);
+
+		/// <summary>
+		/// Load resource from stream. May be called from a worker thread. Return true if successful.
+		/// </summary>
+		public virtual bool BeginLoad (MemoryBuffer source)
+		{
+			Runtime.ValidateRefCounted (this);
+			return Resource_BeginLoad_MemoryBuffer (handle, (object)source == null ? IntPtr.Zero : source.Handle);
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -120,7 +155,7 @@ namespace Urho.Resources
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern bool Resource_Save (IntPtr handle, IntPtr dest);
+		internal static extern bool Resource_Save_File (IntPtr handle, IntPtr dest);
 
 		/// <summary>
 		/// Save resource. Return true if successful.
@@ -128,7 +163,19 @@ namespace Urho.Resources
 		public virtual bool Save (File dest)
 		{
 			Runtime.ValidateRefCounted (this);
-			return Resource_Save (handle, (object)dest == null ? IntPtr.Zero : dest.Handle);
+			return Resource_Save_File (handle, (object)dest == null ? IntPtr.Zero : dest.Handle);
+		}
+
+		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern bool Resource_Save_MemoryBuffer (IntPtr handle, IntPtr dest);
+
+		/// <summary>
+		/// Save resource. Return true if successful.
+		/// </summary>
+		public virtual bool Save (MemoryBuffer dest)
+		{
+			Runtime.ValidateRefCounted (this);
+			return Resource_Save_MemoryBuffer (handle, (object)dest == null ? IntPtr.Zero : dest.Handle);
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -275,6 +322,7 @@ namespace Urho.Resources
 			}
 		}
 
+		[Preserve]
 		public static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

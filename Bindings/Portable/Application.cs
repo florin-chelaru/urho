@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Urho.IO;
@@ -17,9 +18,10 @@ using Urho.Actions;
 using Urho.Gui;
 
 namespace Urho {
-	
-	public partial class Application {
 
+	[PreserveAttribute(AllMembers = true)]
+	public partial class Application
+	{
 		// references needed to prevent GC from collecting callbacks passed to native code
 		static ActionIntPtr setupCallback;
 		static ActionIntPtr startCallback;
@@ -62,6 +64,10 @@ namespace Urho {
 			private set { currentContext = value; }
 		}
 
+		// see Drawable2D.h:66
+		public const float PixelSize = 0.01f;
+
+		[Preserve]
 		public Application(ApplicationOptions options) : this(new Context(), options) {}
 
 		Application (Context context, ApplicationOptions options = null) : base (UrhoObjectFlag.Empty)
@@ -124,14 +130,24 @@ namespace Urho {
 		}
 
 		/// <summary>
+		/// Dispatch to OnUpdate
+		/// </summary>
+		public static ConfiguredTaskAwaitable<bool> ToMainThreadAsync()
+		{
+			var tcs = new TaskCompletionSource<bool>();
+			InvokeOnMain(() => tcs.TrySetResult(true));
+			return tcs.Task.ConfigureAwait(false);
+		}
+
+		/// <summary>
 		/// Invoke actions in the Main Thread (the next Update call)
 		/// </summary>
-		public static Task InvokeOnMainAsync(Action action)
+		public static Task<bool> InvokeOnMainAsync(Action action)
 		{
 			var tcs = new TaskCompletionSource<bool>();
 			InvokeOnMain(() =>
 				{
-					action();
+					action?.Invoke();
 					tcs.TrySetResult(true);
 				});
 			return tcs.Task;
@@ -180,6 +196,13 @@ namespace Urho {
 			Runtime.Start();
 			Current = GetApp(h);
 			Current.SubscribeToAppEvents();
+#if WINDOWS_UWP
+			// UWP temp workaround:
+			var text = new Text();
+			text.SetFont(CoreAssets.Fonts.AnonymousPro, 1);
+			text.Value = " ";
+			Current.UI.Root.AddChild(text);
+#endif
 			Current.Start();
 			Started?.Invoke();
 
@@ -470,11 +493,42 @@ namespace Urho {
 				throw new InvalidOperationException($"Constructor {applicationType}(ApplicationOptions) was not found.", exc);
 			}
 		}
+
+		internal static void ThrowUnhandledException(Exception exc)
+		{
+			string[] errorsToSkip =
+				{
+					"Could not initialize audio output.",
+					"Failed to create input layout for shader",
+					"Failed to create texture"
+				};
+			foreach (var item in errorsToSkip)
+				if (exc.Message.StartsWith(item))
+					return;
+
+			var args = new UnhandledExceptionEventArgs(exc);
+			UnhandledException?.Invoke(null, args);
+			if (!args.Handled)
+				throw exc;
+		}
+
+		public static event EventHandler<UnhandledExceptionEventArgs> UnhandledException;
 	}
 
 	public interface IUrhoSurface
 	{
 		void Remove();
 		bool IsAlive { get; }
+	}
+
+	public class UnhandledExceptionEventArgs : EventArgs
+	{
+		public Exception Exception { get; private set; }
+		public bool Handled { get; set; }
+
+		public UnhandledExceptionEventArgs(Exception exception)
+		{
+			Exception = exception;
+		}
 	}
 }

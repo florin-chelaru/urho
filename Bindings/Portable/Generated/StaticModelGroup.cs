@@ -23,12 +23,18 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class StaticModelGroup : StaticModel
 	{
+		unsafe partial void OnStaticModelGroupCreated ();
+
+		[Preserve]
 		public StaticModelGroup (IntPtr handle) : base (handle)
 		{
+			OnStaticModelGroupCreated ();
 		}
 
+		[Preserve]
 		protected StaticModelGroup (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnStaticModelGroupCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho
 			return Marshal.PtrToStringAnsi (StaticModelGroup_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public StaticModelGroup () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr StaticModelGroup_StaticModelGroup (IntPtr context);
 
+		[Preserve]
 		public StaticModelGroup (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(StaticModelGroup));
 			handle = StaticModelGroup_StaticModelGroup ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnStaticModelGroupCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -201,6 +210,7 @@ namespace Urho
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

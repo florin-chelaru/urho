@@ -23,22 +23,30 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class EventReceiverGroup : RefCounted
 	{
+		unsafe partial void OnEventReceiverGroupCreated ();
+
+		[Preserve]
 		public EventReceiverGroup (IntPtr handle) : base (handle)
 		{
+			OnEventReceiverGroupCreated ();
 		}
 
+		[Preserve]
 		protected EventReceiverGroup (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnEventReceiverGroupCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr EventReceiverGroup_EventReceiverGroup ();
 
+		[Preserve]
 		public EventReceiverGroup () : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(EventReceiverGroup));
 			handle = EventReceiverGroup_EventReceiverGroup ();
 			Runtime.RegisterObject (this);
+			OnEventReceiverGroupCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]

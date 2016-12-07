@@ -23,12 +23,18 @@ namespace Urho.Network
 	/// </summary>
 	public unsafe partial class NetworkPriority : Component
 	{
+		unsafe partial void OnNetworkPriorityCreated ();
+
+		[Preserve]
 		public NetworkPriority (IntPtr handle) : base (handle)
 		{
+			OnNetworkPriorityCreated ();
 		}
 
+		[Preserve]
 		protected NetworkPriority (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnNetworkPriorityCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Network
 			return Marshal.PtrToStringAnsi (NetworkPriority_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public NetworkPriority () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Network
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr NetworkPriority_NetworkPriority (IntPtr context);
 
+		[Preserve]
 		public NetworkPriority (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(NetworkPriority));
 			handle = NetworkPriority_NetworkPriority ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnNetworkPriorityCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -201,6 +210,7 @@ namespace Urho.Network
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

@@ -23,12 +23,18 @@ namespace Urho.Navigation
 	/// </summary>
 	public unsafe partial class CrowdManager : Component
 	{
+		unsafe partial void OnCrowdManagerCreated ();
+
+		[Preserve]
 		public CrowdManager (IntPtr handle) : base (handle)
 		{
+			OnCrowdManagerCreated ();
 		}
 
+		[Preserve]
 		protected CrowdManager (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnCrowdManagerCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Navigation
 			return Marshal.PtrToStringAnsi (CrowdManager_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public CrowdManager () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Navigation
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr CrowdManager_CrowdManager (IntPtr context);
 
+		[Preserve]
 		public CrowdManager (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(CrowdManager));
 			handle = CrowdManager_CrowdManager ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnCrowdManagerCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -453,6 +462,7 @@ namespace Urho.Navigation
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

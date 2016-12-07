@@ -23,12 +23,18 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class ValueAnimation : Resource
 	{
+		unsafe partial void OnValueAnimationCreated ();
+
+		[Preserve]
 		public ValueAnimation (IntPtr handle) : base (handle)
 		{
+			OnValueAnimationCreated ();
 		}
 
+		[Preserve]
 		protected ValueAnimation (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnValueAnimationCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho
 			return Marshal.PtrToStringAnsi (ValueAnimation_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public ValueAnimation () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr ValueAnimation_ValueAnimation (IntPtr context);
 
+		[Preserve]
 		public ValueAnimation (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(ValueAnimation));
 			handle = ValueAnimation_ValueAnimation ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnValueAnimationCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -94,7 +103,7 @@ namespace Urho
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern bool ValueAnimation_BeginLoad (IntPtr handle, IntPtr source);
+		internal static extern bool ValueAnimation_BeginLoad_File (IntPtr handle, IntPtr source);
 
 		/// <summary>
 		/// Load resource from stream. May be called from a worker thread. Return true if successful.
@@ -102,11 +111,23 @@ namespace Urho
 		public override bool BeginLoad (File source)
 		{
 			Runtime.ValidateRefCounted (this);
-			return ValueAnimation_BeginLoad (handle, (object)source == null ? IntPtr.Zero : source.Handle);
+			return ValueAnimation_BeginLoad_File (handle, (object)source == null ? IntPtr.Zero : source.Handle);
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern bool ValueAnimation_Save (IntPtr handle, IntPtr dest);
+		internal static extern bool ValueAnimation_BeginLoad_MemoryBuffer (IntPtr handle, IntPtr source);
+
+		/// <summary>
+		/// Load resource from stream. May be called from a worker thread. Return true if successful.
+		/// </summary>
+		public override bool BeginLoad (MemoryBuffer source)
+		{
+			Runtime.ValidateRefCounted (this);
+			return ValueAnimation_BeginLoad_MemoryBuffer (handle, (object)source == null ? IntPtr.Zero : source.Handle);
+		}
+
+		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern bool ValueAnimation_Save_File (IntPtr handle, IntPtr dest);
 
 		/// <summary>
 		/// Save resource. Return true if successful.
@@ -114,7 +135,19 @@ namespace Urho
 		public override bool Save (File dest)
 		{
 			Runtime.ValidateRefCounted (this);
-			return ValueAnimation_Save (handle, (object)dest == null ? IntPtr.Zero : dest.Handle);
+			return ValueAnimation_Save_File (handle, (object)dest == null ? IntPtr.Zero : dest.Handle);
+		}
+
+		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern bool ValueAnimation_Save_MemoryBuffer (IntPtr handle, IntPtr dest);
+
+		/// <summary>
+		/// Save resource. Return true if successful.
+		/// </summary>
+		public override bool Save (MemoryBuffer dest)
+		{
+			Runtime.ValidateRefCounted (this);
+			return ValueAnimation_Save_MemoryBuffer (handle, (object)dest == null ? IntPtr.Zero : dest.Handle);
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -453,6 +486,7 @@ namespace Urho
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

@@ -23,12 +23,18 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class DebugRenderer : Component
 	{
+		unsafe partial void OnDebugRendererCreated ();
+
+		[Preserve]
 		public DebugRenderer (IntPtr handle) : base (handle)
 		{
+			OnDebugRendererCreated ();
 		}
 
+		[Preserve]
 		protected DebugRenderer (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnDebugRendererCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho
 			return Marshal.PtrToStringAnsi (DebugRenderer_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public DebugRenderer () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr DebugRenderer_DebugRenderer (IntPtr context);
 
+		[Preserve]
 		public DebugRenderer (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(DebugRenderer));
 			handle = DebugRenderer_DebugRenderer ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnDebugRendererCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -345,6 +354,7 @@ namespace Urho
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

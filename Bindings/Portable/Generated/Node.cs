@@ -23,12 +23,18 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class Node : Animatable
 	{
+		unsafe partial void OnNodeCreated ();
+
+		[Preserve]
 		public Node (IntPtr handle) : base (handle)
 		{
+			OnNodeCreated ();
 		}
 
+		[Preserve]
 		protected Node (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnNodeCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho
 			return Marshal.PtrToStringAnsi (Node_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public Node () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr Node_Node (IntPtr context);
 
+		[Preserve]
 		public Node (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(Node));
 			handle = Node_Node ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnNodeCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -94,7 +103,7 @@ namespace Urho
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern bool Node_Load (IntPtr handle, IntPtr source, bool setInstanceDefault);
+		internal static extern bool Node_Load_File (IntPtr handle, IntPtr source, bool setInstanceDefault);
 
 		/// <summary>
 		/// Load from binary data. Return true if successful.
@@ -102,7 +111,19 @@ namespace Urho
 		public override bool Load (File source, bool setInstanceDefault)
 		{
 			Runtime.ValidateRefCounted (this);
-			return Node_Load (handle, (object)source == null ? IntPtr.Zero : source.Handle, setInstanceDefault);
+			return Node_Load_File (handle, (object)source == null ? IntPtr.Zero : source.Handle, setInstanceDefault);
+		}
+
+		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern bool Node_Load_MemoryBuffer (IntPtr handle, IntPtr source, bool setInstanceDefault);
+
+		/// <summary>
+		/// Load from binary data. Return true if successful.
+		/// </summary>
+		public override bool Load (MemoryBuffer source, bool setInstanceDefault)
+		{
+			Runtime.ValidateRefCounted (this);
+			return Node_Load_MemoryBuffer (handle, (object)source == null ? IntPtr.Zero : source.Handle, setInstanceDefault);
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -118,7 +139,7 @@ namespace Urho
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern bool Node_Save (IntPtr handle, IntPtr dest);
+		internal static extern bool Node_Save_File (IntPtr handle, IntPtr dest);
 
 		/// <summary>
 		/// Save as binary data. Return true if successful.
@@ -126,7 +147,19 @@ namespace Urho
 		public override bool Save (File dest)
 		{
 			Runtime.ValidateRefCounted (this);
-			return Node_Save (handle, (object)dest == null ? IntPtr.Zero : dest.Handle);
+			return Node_Save_File (handle, (object)dest == null ? IntPtr.Zero : dest.Handle);
+		}
+
+		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern bool Node_Save_MemoryBuffer (IntPtr handle, IntPtr dest);
+
+		/// <summary>
+		/// Save as binary data. Return true if successful.
+		/// </summary>
+		public override bool Save (MemoryBuffer dest)
+		{
+			Runtime.ValidateRefCounted (this);
+			return Node_Save_MemoryBuffer (handle, (object)dest == null ? IntPtr.Zero : dest.Handle);
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -190,7 +223,7 @@ namespace Urho
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern bool Node_SaveXML0 (IntPtr handle, IntPtr dest, string indentation);
+		internal static extern bool Node_SaveXML0_File (IntPtr handle, IntPtr dest, string indentation);
 
 		/// <summary>
 		/// Save to an XML file. Return true if successful.
@@ -198,11 +231,23 @@ namespace Urho
 		public virtual bool SaveXml (File dest, string indentation)
 		{
 			Runtime.ValidateRefCounted (this);
-			return Node_SaveXML0 (handle, (object)dest == null ? IntPtr.Zero : dest.Handle, indentation);
+			return Node_SaveXML0_File (handle, (object)dest == null ? IntPtr.Zero : dest.Handle, indentation);
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern bool Node_SaveJSON (IntPtr handle, IntPtr dest, string indentation);
+		internal static extern bool Node_SaveXML0_MemoryBuffer (IntPtr handle, IntPtr dest, string indentation);
+
+		/// <summary>
+		/// Save to an XML file. Return true if successful.
+		/// </summary>
+		public virtual bool SaveXml (MemoryBuffer dest, string indentation)
+		{
+			Runtime.ValidateRefCounted (this);
+			return Node_SaveXML0_MemoryBuffer (handle, (object)dest == null ? IntPtr.Zero : dest.Handle, indentation);
+		}
+
+		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern bool Node_SaveJSON_File (IntPtr handle, IntPtr dest, string indentation);
 
 		/// <summary>
 		/// Save to a JSON file. Return true if successful.
@@ -210,7 +255,19 @@ namespace Urho
 		public virtual bool SaveJson (File dest, string indentation)
 		{
 			Runtime.ValidateRefCounted (this);
-			return Node_SaveJSON (handle, (object)dest == null ? IntPtr.Zero : dest.Handle, indentation);
+			return Node_SaveJSON_File (handle, (object)dest == null ? IntPtr.Zero : dest.Handle, indentation);
+		}
+
+		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern bool Node_SaveJSON_MemoryBuffer (IntPtr handle, IntPtr dest, string indentation);
+
+		/// <summary>
+		/// Save to a JSON file. Return true if successful.
+		/// </summary>
+		public virtual bool SaveJson (MemoryBuffer dest, string indentation)
+		{
+			Runtime.ValidateRefCounted (this);
+			return Node_SaveJSON_MemoryBuffer (handle, (object)dest == null ? IntPtr.Zero : dest.Handle, indentation);
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -2049,6 +2106,7 @@ namespace Urho
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

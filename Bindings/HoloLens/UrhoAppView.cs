@@ -15,13 +15,12 @@ namespace Urho.HoloLens
 	public class UrhoAppView : IFrameworkView, IDisposable 
 	{
 		Type holoAppType;
-		string assetsDirectory;
+		ApplicationOptions options;
 		bool windowVisible = true;
 		bool windowClosed;
 		bool appInited;
 
-		HolographicFrame currentFrame;
-
+		public HolographicFrame CurrentFrame { get; private set; }
 		public HolographicSpace HolographicSpace { get; private set; }
 		public HoloApplication Game { get; private set; }
 		public SpatialInteractionManager InteractionManager { get; private set; }
@@ -33,20 +32,31 @@ namespace Urho.HoloLens
 
 		public static UrhoAppView Current { get; private set; }
 
-		UrhoAppView(Type holoAppType, string assetsDirectory)
+		UrhoAppView(Type holoAppType, ApplicationOptions opts)
 		{
 			this.holoAppType = holoAppType;
-			this.assetsDirectory = assetsDirectory;
-			windowVisible = true;
+			this.options = opts;
+			this.windowVisible = true;
 			Current = this;
 		}
 
-		public static UrhoAppView Create<T>(string assetsPakName) where T : HoloApplication
+		public static UrhoAppView Create<T>(ApplicationOptions opts) where T : HoloApplication
 		{
-			return new UrhoAppView(typeof(T), assetsPakName);
+			return new UrhoAppView(typeof(T), opts);
 		}
 
-		public void Dispose() {}
+		public void Dispose()
+		{
+			Disposed?.Invoke();
+		}
+
+		public event Action<CoreApplicationView> Initialized;
+		public event Action Uninitialized;
+		public event Action Disposed;
+		public event Action<CoreWindow> WindowIsSet;
+		public event Action<string> Loaded;
+		public event Action AppStarting;
+		public event Action<HoloApplication> AppStarted;
 
 		#region IFrameworkView Members
 
@@ -56,6 +66,8 @@ namespace Urho.HoloLens
 		/// </summary>
 		public void Initialize(CoreApplicationView applicationView)
 		{
+			Initialized?.Invoke(applicationView);
+
 			applicationView.Activated += this.OnViewActivated;
 
 			CoreApplication.Suspending += this.OnSuspending;
@@ -67,27 +79,43 @@ namespace Urho.HoloLens
 		/// </summary>
 		public void SetWindow(CoreWindow window)
 		{
-			window.KeyDown += this.OnKeyPressed;
-			window.Closed += this.OnWindowClosed;
+			window.KeyDown += OnKeyDown;
+			window.KeyUp += OnKeyUp;
+			window.Closed += OnWindowClosed;
 			window.VisibilityChanged += this.OnVisibilityChanged;
 			HolographicSpace = HolographicSpace.CreateForCoreWindow(window);
+			WindowIsSet?.Invoke(window);
+		}
+
+		void OnKeyUp(CoreWindow sender, KeyEventArgs args)
+		{
+			// Sdl.SendKeyboardEvent(SdlKeyState.SDL_RELEASED, (int)args.KeyStatus.ScanCode);
+		}
+
+		void OnKeyDown(CoreWindow sender, KeyEventArgs args)
+		{
+			// Sdl.SendKeyboardEvent(SdlKeyState.SDL_PRESSED, (int)args.KeyStatus.ScanCode);
 		}
 
 		/// <summary>
 		/// The Load method can be used to initialize scene resources or to load a
 		/// previously saved app state.
 		/// </summary>
-		public void Load(string entryPoint) { }
+		public void Load(string entryPoint)
+		{
+			Loaded?.Invoke(entryPoint);
+		}
 
 		[DllImport(Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		static extern void InitializeSpace();
 
 		public unsafe void Run()
 		{
+			AppStarting?.Invoke();
 			ReferenceFrame = SpatialLocator.GetDefault().CreateStationaryFrameOfReferenceAtCurrentLocation();
 
 			var coreWindow = CoreWindow.GetForCurrentThread();
-			coreWindow.CustomProperties.Add("HolographicSpace", HolographicSpace);
+			coreWindow.CustomProperties.Add(nameof(HolographicSpace), HolographicSpace);
 
 			InitializeSpace();
 			InteractionManager = SpatialInteractionManager.GetForCurrentView();
@@ -101,24 +129,27 @@ namespace Urho.HoloLens
 					VoiceManager = new VoiceManager();
 					appInited = true;
 
-					var options = new ApplicationOptions(assetsDirectory) 
-						{
-							Width = 1268,
-							Height = 720,
-							LimitFps = false
-						};
+					if (options == null)
+						options = new ApplicationOptions();
+
+					//override some options:
+					options.LimitFps = false;
+					options.Width = 1268; //TODO: find system
+					options.Height = 720;
+
 					Game = (HoloApplication) Activator.CreateInstance(holoAppType, options);
 					Game.Run();
 					GesturesManager = new GesturesManager(Game, ReferenceFrame);
+					AppStarted?.Invoke(Game);
 				}
 
 				if (windowVisible && (null != HolographicSpace))
 				{
 					if (Game != null)
 					{
-						currentFrame = HolographicSpace.CreateNextFrame();
-						currentFrame.UpdateCurrentPrediction();
-						var prediction = currentFrame.CurrentPrediction;
+						CurrentFrame = HolographicSpace.CreateNextFrame();
+						CurrentFrame.UpdateCurrentPrediction();
+						var prediction = CurrentFrame.CurrentPrediction;
 						if (prediction.CameraPoses.Count < 1)
 							continue;
 						var cameraPose = prediction.CameraPoses[0];
@@ -138,7 +169,7 @@ namespace Urho.HoloLens
 							Game.UpdateStereoView(leftViewMatrixUrho, rightViewMatrixUrho, leftProjMatrixUrho, rightProjMatrixUrho);
 						}
 
-						var parameters = currentFrame.GetRenderingParameters(cameraPose);
+						var parameters = CurrentFrame.GetRenderingParameters(cameraPose);
 						if (Game.FocusWorldPoint != Vector3.Zero)
 							parameters.SetFocusPoint(ReferenceFrame.CoordinateSystem, 
 								new System.Numerics.Vector3(
@@ -147,7 +178,7 @@ namespace Urho.HoloLens
 									-Game.FocusWorldPoint.Z)); //LH->RH
 
 						Game.Engine.RunFrame();
-						currentFrame.PresentUsingCurrentPrediction(HolographicFramePresentWaitBehavior.WaitForFrameToFinish);
+						CurrentFrame.PresentUsingCurrentPrediction(HolographicFramePresentWaitBehavior.WaitForFrameToFinish);
 					}
 					CoreWindow.GetForCurrentThread().Dispatcher.ProcessEvents(CoreProcessEventsOption.ProcessAllIfPresent);
 				}
@@ -166,6 +197,7 @@ namespace Urho.HoloLens
 		/// </summary>
 		public void Uninitialize()
 		{
+			Uninitialized?.Invoke();
 		}
 
 		#endregion
@@ -183,6 +215,8 @@ namespace Urho.HoloLens
 
 		void OnSuspending(object sender, SuspendingEventArgs args)
 		{
+			// Sdl.SendWindowEvent(SdlWindowEvent.SDL_WINDOWEVENT_HIDDEN);
+
 			// Save app state asynchronously after requesting a deferral. Holding a deferral
 			// indicates that the application is busy performing suspending operations. Be
 			// aware that a deferral may not be held indefinitely; after about five seconds,
@@ -193,6 +227,7 @@ namespace Urho.HoloLens
 
 		void OnResuming(object sender, object args)
 		{
+			// Sdl.SendWindowEvent(SdlWindowEvent.SDL_WINDOWEVENT_RESTORED);
 		}
 
 		#endregion;
@@ -207,14 +242,6 @@ namespace Urho.HoloLens
 		void OnWindowClosed(CoreWindow sender, CoreWindowEventArgs arg)
 		{
 			windowClosed = true;
-		}
-
-		#endregion
-
-		#region Input event handlers
-
-		void OnKeyPressed(CoreWindow sender, KeyEventArgs args)
-		{
 		}
 
 		#endregion

@@ -84,17 +84,7 @@ ParseEventsMac:
 
 Generated: PchMac SharpieBinder ParseEventsMac
 	
-# change references from nuget to projectreferences for Samples/
-RemoveNugetFromSamples:
-	csc Bindings/RemoveNugetFromSamples.cs && ./RemoveNugetFromSamples.exe -refsonly && rm -f RemoveNugetFromSamples.exe
-
-# change references from nuget to projectreferences for Samples/
-RemoveNugetFromSamplesMono:
-	mcs Bindings/RemoveNugetFromSamples.cs -r:System.Xml.dll -r:System.Xml.Linq.dll && mono RemoveNugetFromSamples.exe -refsonly && rm -f Bindings/RemoveNugetFromSamples.exe
-
-refresh-docs:
-	make PchMac
-	make ParseEventsMac
+refresh-docs: Generated
 	xbuild /target:clean bindings/Urho.Desktop.csproj
 	xbuild bindings/Urho.Desktop.csproj
 	(cd docs; make update)

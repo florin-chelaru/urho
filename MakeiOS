@@ -1,6 +1,6 @@
-# armv7s, armv7, arm64, x86_64
+# armv7s, armv7, arm64, i386, x86_64
 ARCH=x86_64
-SDK_VER=10.0
+SDK_VER=9.2
 MIN_IOS_VER=8.0
 OUTPUT_DIR=Bin/iOS
 URHO_DIR=Urho3D/Urho3D_iOS
@@ -8,12 +8,14 @@ URHO_SOURCE_DIR=Urho3D/Source
 
 ifeq ($(ARCH), x86_64)
 TARGET=iPhoneSimulator
+else ifeq ($(ARCH), x86_64)
+TARGET=iPhoneSimulator
 else
 TARGET=iPhoneOS
 endif
 
 URHO_FLAGS=-I$(URHO_DIR)/include -I$(URHO_DIR)/include/Urho3D/ThirdParty -I$(URHO_DIR)/include/Urho3D/ThirdParty/Bullet -DURHO3D_NEON -DSTBI_NEON -DURHO3D_FILEWATCHER -DURHO3D_PROFILING -DURHO3D_LOGGING -DKNET_UNIX -DURHO3D_OPENGL -DURHO3D_NAVIGATION -DURHO3D_NETWORK -DURHO3D_PHYSICS -DURHO3D_URHO2D -DURHO3D_STATIC_DEFINE -DIOS
-URHO_LIBS=-framework AudioToolbox -framework CoreAudio -framework CoreGraphics -framework Foundation -framework OpenGLES -framework QuartzCore -framework UIKit -framework GameController -framework CoreMotion -Wl,-search_paths_first -Wl,-headerpad_max_install_names $(URHO_DIR)/lib/libUrho3D.a -ldl -lpthread
+URHO_LIBS=-framework AudioToolbox -framework AVFoundation -framework CoreAudio -framework CoreGraphics -framework Foundation -framework OpenGLES -framework QuartzCore -framework UIKit -framework GameController -framework CoreMotion -Wl,-search_paths_first -Wl,-headerpad_max_install_names $(URHO_DIR)/lib/libUrho3D.a -ldl -lpthread
 CXXFLAGS=-g -Wno-address-of-temporary -Wno-return-type-c-linkage -Wno-c++11-extensions $(URHO_FLAGS) 
 
 XCODE_BASE=/Applications/Xcode.app/Contents
@@ -28,7 +30,9 @@ Urho3D_IOS:
 	rm -rf $(URHO_DIR) && mkdir -p $(URHO_DIR) && $(URHO_SOURCE_DIR)/./cmake_ios.sh $(URHO_DIR) -DURHO3D_PCH=0 -DURHO3D_TOOLS=0 -DURHO3D_LUA=0 -DURHO3D_ANGELSCRIPT=0
 	
 libUrho3D.a: Urho3D_IOS
-ifeq ($(ARCH), x86_64)
+ifeq ($(ARCH), i386)
+	cd $(URHO_DIR) && xcodebuild -arch "i386" ONLY_ACTIVE_ARCH=NO VALID_ARCHS="i386" -target Urho3D -sdk iphonesimulator$(SDK_VER)
+else ifeq ($(ARCH), x86_64)
 	cd $(URHO_DIR) && xcodebuild -arch "x86_64" ONLY_ACTIVE_ARCH=NO VALID_ARCHS="x86_64" -target Urho3D -sdk iphonesimulator$(SDK_VER)
 else
 	cd $(URHO_DIR) && xcodebuild ARCHS=$(ARCH) ONLY_ACTIVE_ARCH=NO -target Urho3D -configuration Release
@@ -41,7 +45,7 @@ libmono-urho.dylib: MakeBinDirectory libUrho3D.a vector.o binding.o glue.o event
 	mkdir -p $(OUTPUT_DIR) && $(CPP) -dynamiclib -g -o $(OUTPUT_DIR)/libmono-urho_$(ARCH).dylib -g $(URHO_LIBS) $(OUTPUT_DIR)/binding.o $(OUTPUT_DIR)/glue.o $(OUTPUT_DIR)/vector.o $(OUTPUT_DIR)/events.o $(OUTPUT_DIR)/ApplicationProxy.o
 
 fat-libmono-urho.dylib:
-	make libmono-urho.dylib -f MakeiOS ARCH="x86_64" && make libmono-urho.dylib -f MakeiOS ARCH="armv7" && make libmono-urho.dylib -f MakeiOS ARCH="arm64" && cd $(OUTPUT_DIR) && lipo -create libmono-urho_x86_64.dylib libmono-urho_armv7.dylib libmono-urho_arm64.dylib -output libmono-urho.dylib
+	make libmono-urho.dylib -f MakeiOS ARCH="i386" && make libmono-urho.dylib -f MakeiOS ARCH="x86_64" && make libmono-urho.dylib -f MakeiOS ARCH="armv7" && make libmono-urho.dylib -f MakeiOS ARCH="arm64" && cd $(OUTPUT_DIR) && lipo -create libmono-urho_i386.dylib libmono-urho_x86_64.dylib libmono-urho_armv7.dylib libmono-urho_arm64.dylib -output libmono-urho.dylib
 
 Urho.framework: fat-libmono-urho.dylib
 	rm -rf $(OUTPUT_DIR)/Urho.framework && mkdir $(OUTPUT_DIR)/Urho.framework && cp Bindings/iOS/Urho.framework.plist $(OUTPUT_DIR)/Urho.framework/Info.plist && cd $(OUTPUT_DIR) && cp libmono-Urho.dylib Urho.framework/Urho && install_name_tool -id @rpath/Urho.framework/Urho Urho.framework/Urho && zip -r Urho.framework.zip Urho.framework

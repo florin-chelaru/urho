@@ -16,11 +16,11 @@ namespace Playgrounds.HoloLens
 		protected override void Start()
 		{
 			base.Start();
-			for (int i = 0; i < 3; i++)
+			for (int i = 0; i < 5; i++)
 			{
-				for (int j = 0; j < 3; j++)
+				for (int j = 0; j < 5; j++)
 				{
-					for (int k = 0; k < 3; k++)
+					for (int k = 0; k < 5; k++)
 					{
 						var child = Scene.CreateChild();
 						child.SetScale(0.05f);

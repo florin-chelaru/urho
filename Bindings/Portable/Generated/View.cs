@@ -23,12 +23,18 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class View : UrhoObject
 	{
+		unsafe partial void OnViewCreated ();
+
+		[Preserve]
 		public View (IntPtr handle) : base (handle)
 		{
+			OnViewCreated ();
 		}
 
+		[Preserve]
 		protected View (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnViewCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho
 			return Marshal.PtrToStringAnsi (View_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public View () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr View_View (IntPtr context);
 
+		[Preserve]
 		public View (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(View));
 			handle = View_View ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnViewCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -357,6 +366,7 @@ namespace Urho
 			}
 		}
 
+		[Preserve]
 		public static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

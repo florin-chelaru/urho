@@ -23,12 +23,18 @@ namespace Urho.Gui
 	/// </summary>
 	public unsafe partial class Text3D : Drawable
 	{
+		unsafe partial void OnText3DCreated ();
+
+		[Preserve]
 		public Text3D (IntPtr handle) : base (handle)
 		{
+			OnText3DCreated ();
 		}
 
+		[Preserve]
 		protected Text3D (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnText3DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Gui
 			return Marshal.PtrToStringAnsi (Text3D_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public Text3D () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Gui
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr Text3D_Text3D (IntPtr context);
 
+		[Preserve]
 		public Text3D (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(Text3D));
 			handle = Text3D_Text3D ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnText3DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -777,6 +786,7 @@ namespace Urho.Gui
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

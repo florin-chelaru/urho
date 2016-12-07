@@ -24,9 +24,12 @@ namespace Urho
 	[StructLayout (LayoutKind.Sequential)]
 	public unsafe partial struct HeightfieldData
 	{
+		unsafe partial void OnHeightfieldDataCreated ();
+
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr HeightfieldData_HeightfieldData (IntPtr terrain, uint lodLevel);
 
+		[Preserve]
 		public HeightfieldData (Terrain terrain, uint lodLevel)
 		{
 			Runtime.Validate (typeof(HeightfieldData));

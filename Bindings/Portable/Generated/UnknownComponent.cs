@@ -23,14 +23,21 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class UnknownComponent : Component
 	{
+		unsafe partial void OnUnknownComponentCreated ();
+
+		[Preserve]
 		public UnknownComponent (IntPtr handle) : base (handle)
 		{
+			OnUnknownComponentCreated ();
 		}
 
+		[Preserve]
 		protected UnknownComponent (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnUnknownComponentCreated ();
 		}
 
+		[Preserve]
 		public UnknownComponent () : this (Application.CurrentContext)
 		{
 		}
@@ -38,11 +45,13 @@ namespace Urho
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr UnknownComponent_UnknownComponent (IntPtr context);
 
+		[Preserve]
 		public UnknownComponent (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(UnknownComponent));
 			handle = UnknownComponent_UnknownComponent ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnUnknownComponentCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -82,7 +91,7 @@ namespace Urho
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern bool UnknownComponent_Load (IntPtr handle, IntPtr source, bool setInstanceDefault);
+		internal static extern bool UnknownComponent_Load_File (IntPtr handle, IntPtr source, bool setInstanceDefault);
 
 		/// <summary>
 		/// Load from binary data. Return true if successful.
@@ -90,7 +99,19 @@ namespace Urho
 		public override bool Load (File source, bool setInstanceDefault)
 		{
 			Runtime.ValidateRefCounted (this);
-			return UnknownComponent_Load (handle, (object)source == null ? IntPtr.Zero : source.Handle, setInstanceDefault);
+			return UnknownComponent_Load_File (handle, (object)source == null ? IntPtr.Zero : source.Handle, setInstanceDefault);
+		}
+
+		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern bool UnknownComponent_Load_MemoryBuffer (IntPtr handle, IntPtr source, bool setInstanceDefault);
+
+		/// <summary>
+		/// Load from binary data. Return true if successful.
+		/// </summary>
+		public override bool Load (MemoryBuffer source, bool setInstanceDefault)
+		{
+			Runtime.ValidateRefCounted (this);
+			return UnknownComponent_Load_MemoryBuffer (handle, (object)source == null ? IntPtr.Zero : source.Handle, setInstanceDefault);
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -106,7 +127,7 @@ namespace Urho
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern bool UnknownComponent_Save (IntPtr handle, IntPtr dest);
+		internal static extern bool UnknownComponent_Save_File (IntPtr handle, IntPtr dest);
 
 		/// <summary>
 		/// Save as binary data. Return true if successful.
@@ -114,7 +135,19 @@ namespace Urho
 		public override bool Save (File dest)
 		{
 			Runtime.ValidateRefCounted (this);
-			return UnknownComponent_Save (handle, (object)dest == null ? IntPtr.Zero : dest.Handle);
+			return UnknownComponent_Save_File (handle, (object)dest == null ? IntPtr.Zero : dest.Handle);
+		}
+
+		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern bool UnknownComponent_Save_MemoryBuffer (IntPtr handle, IntPtr dest);
+
+		/// <summary>
+		/// Save as binary data. Return true if successful.
+		/// </summary>
+		public override bool Save (MemoryBuffer dest)
+		{
+			Runtime.ValidateRefCounted (this);
+			return UnknownComponent_Save_MemoryBuffer (handle, (object)dest == null ? IntPtr.Zero : dest.Handle);
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -219,6 +252,7 @@ namespace Urho
 		/// <summary>
 		/// Return static type.
 		/// </summary>
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

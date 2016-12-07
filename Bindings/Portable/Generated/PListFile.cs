@@ -23,12 +23,18 @@ namespace Urho.Resources
 	/// </summary>
 	public unsafe partial class PListFile : Resource
 	{
+		unsafe partial void OnPListFileCreated ();
+
+		[Preserve]
 		public PListFile (IntPtr handle) : base (handle)
 		{
+			OnPListFileCreated ();
 		}
 
+		[Preserve]
 		protected PListFile (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnPListFileCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Resources
 			return Marshal.PtrToStringAnsi (PListFile_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public PListFile () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Resources
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr PListFile_PListFile (IntPtr context);
 
+		[Preserve]
 		public PListFile (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(PListFile));
 			handle = PListFile_PListFile ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnPListFileCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -94,7 +103,7 @@ namespace Urho.Resources
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern bool PListFile_BeginLoad (IntPtr handle, IntPtr source);
+		internal static extern bool PListFile_BeginLoad_File (IntPtr handle, IntPtr source);
 
 		/// <summary>
 		/// Load resource from stream. May be called from a worker thread. Return true if successful.
@@ -102,7 +111,19 @@ namespace Urho.Resources
 		public override bool BeginLoad (File source)
 		{
 			Runtime.ValidateRefCounted (this);
-			return PListFile_BeginLoad (handle, (object)source == null ? IntPtr.Zero : source.Handle);
+			return PListFile_BeginLoad_File (handle, (object)source == null ? IntPtr.Zero : source.Handle);
+		}
+
+		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern bool PListFile_BeginLoad_MemoryBuffer (IntPtr handle, IntPtr source);
+
+		/// <summary>
+		/// Load resource from stream. May be called from a worker thread. Return true if successful.
+		/// </summary>
+		public override bool BeginLoad (MemoryBuffer source)
+		{
+			Runtime.ValidateRefCounted (this);
+			return PListFile_BeginLoad_MemoryBuffer (handle, (object)source == null ? IntPtr.Zero : source.Handle);
 		}
 
 		public override StringHash Type {
@@ -117,6 +138,7 @@ namespace Urho.Resources
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

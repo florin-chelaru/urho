@@ -23,12 +23,18 @@ namespace Urho.Gui
 	/// </summary>
 	public unsafe partial class ScrollBar : BorderImage
 	{
+		unsafe partial void OnScrollBarCreated ();
+
+		[Preserve]
 		public ScrollBar (IntPtr handle) : base (handle)
 		{
+			OnScrollBarCreated ();
 		}
 
+		[Preserve]
 		protected ScrollBar (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnScrollBarCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Gui
 			return Marshal.PtrToStringAnsi (ScrollBar_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public ScrollBar () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Gui
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr ScrollBar_ScrollBar (IntPtr context);
 
+		[Preserve]
 		public ScrollBar (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(ScrollBar));
 			handle = ScrollBar_ScrollBar ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnScrollBarCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -345,6 +354,7 @@ namespace Urho.Gui
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

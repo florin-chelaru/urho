@@ -23,22 +23,30 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class Pass : RefCounted
 	{
+		unsafe partial void OnPassCreated ();
+
+		[Preserve]
 		public Pass (IntPtr handle) : base (handle)
 		{
+			OnPassCreated ();
 		}
 
+		[Preserve]
 		protected Pass (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnPassCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr Pass_Pass (string passName);
 
+		[Preserve]
 		public Pass (string passName) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(Pass));
 			handle = Pass_Pass (passName);
 			Runtime.RegisterObject (this);
+			OnPassCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]

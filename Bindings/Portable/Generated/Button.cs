@@ -23,12 +23,18 @@ namespace Urho.Gui
 	/// </summary>
 	public unsafe partial class Button : BorderImage
 	{
+		unsafe partial void OnButtonCreated ();
+
+		[Preserve]
 		public Button (IntPtr handle) : base (handle)
 		{
+			OnButtonCreated ();
 		}
 
+		[Preserve]
 		protected Button (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnButtonCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Gui
 			return Marshal.PtrToStringAnsi (Button_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public Button () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Gui
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr Button_Button (IntPtr context);
 
+		[Preserve]
 		public Button (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(Button));
 			handle = Button_Button ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnButtonCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -297,6 +306,7 @@ namespace Urho.Gui
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

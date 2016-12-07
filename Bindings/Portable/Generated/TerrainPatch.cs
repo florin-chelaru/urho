@@ -23,12 +23,18 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class TerrainPatch : Drawable
 	{
+		unsafe partial void OnTerrainPatchCreated ();
+
+		[Preserve]
 		public TerrainPatch (IntPtr handle) : base (handle)
 		{
+			OnTerrainPatchCreated ();
 		}
 
+		[Preserve]
 		protected TerrainPatch (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnTerrainPatchCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho
 			return Marshal.PtrToStringAnsi (TerrainPatch_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public TerrainPatch () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr TerrainPatch_TerrainPatch (IntPtr context);
 
+		[Preserve]
 		public TerrainPatch (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(TerrainPatch));
 			handle = TerrainPatch_TerrainPatch ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnTerrainPatchCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -369,6 +378,7 @@ namespace Urho
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

@@ -23,12 +23,18 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class Technique : Resource
 	{
+		unsafe partial void OnTechniqueCreated ();
+
+		[Preserve]
 		public Technique (IntPtr handle) : base (handle)
 		{
+			OnTechniqueCreated ();
 		}
 
+		[Preserve]
 		protected Technique (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnTechniqueCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho
 			return Marshal.PtrToStringAnsi (Technique_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public Technique () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr Technique_Technique (IntPtr context);
 
+		[Preserve]
 		public Technique (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(Technique));
 			handle = Technique_Technique ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnTechniqueCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -94,7 +103,7 @@ namespace Urho
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern bool Technique_BeginLoad (IntPtr handle, IntPtr source);
+		internal static extern bool Technique_BeginLoad_File (IntPtr handle, IntPtr source);
 
 		/// <summary>
 		/// Load resource from stream. May be called from a worker thread. Return true if successful.
@@ -102,7 +111,19 @@ namespace Urho
 		public override bool BeginLoad (File source)
 		{
 			Runtime.ValidateRefCounted (this);
-			return Technique_BeginLoad (handle, (object)source == null ? IntPtr.Zero : source.Handle);
+			return Technique_BeginLoad_File (handle, (object)source == null ? IntPtr.Zero : source.Handle);
+		}
+
+		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern bool Technique_BeginLoad_MemoryBuffer (IntPtr handle, IntPtr source);
+
+		/// <summary>
+		/// Load resource from stream. May be called from a worker thread. Return true if successful.
+		/// </summary>
+		public override bool BeginLoad (MemoryBuffer source)
+		{
+			Runtime.ValidateRefCounted (this);
+			return Technique_BeginLoad_MemoryBuffer (handle, (object)source == null ? IntPtr.Zero : source.Handle);
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -309,6 +330,7 @@ namespace Urho
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

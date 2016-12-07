@@ -23,12 +23,18 @@ namespace Urho.Urho2D
 	/// </summary>
 	public unsafe partial class ConstraintMotor2D : Constraint2D
 	{
+		unsafe partial void OnConstraintMotor2DCreated ();
+
+		[Preserve]
 		public ConstraintMotor2D (IntPtr handle) : base (handle)
 		{
+			OnConstraintMotor2DCreated ();
 		}
 
+		[Preserve]
 		protected ConstraintMotor2D (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnConstraintMotor2DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Urho2D
 			return Marshal.PtrToStringAnsi (ConstraintMotor2D_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public ConstraintMotor2D () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Urho2D
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr ConstraintMotor2D_ConstraintMotor2D (IntPtr context);
 
+		[Preserve]
 		public ConstraintMotor2D (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(ConstraintMotor2D));
 			handle = ConstraintMotor2D_ConstraintMotor2D ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnConstraintMotor2DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -225,6 +234,7 @@ namespace Urho.Urho2D
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

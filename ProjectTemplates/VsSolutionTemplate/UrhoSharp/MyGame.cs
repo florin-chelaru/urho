@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,9 +12,18 @@ namespace $safeprojectname$
 {
     public class MyGame : Application
     {
-        public MyGame() : base(new ApplicationOptions("Data") { })
-        {
-        }
+		[Preserve]
+        public MyGame(ApplicationOptions opts) : base(opts) { }
+
+		static SamplyGame()
+		{
+			UnhandledException += (s, e) =>
+			{
+				if (Debugger.IsAttached)
+					Debugger.Break();
+				e.Handled = true;
+			};
+		}
 
         protected override void Start()
         {

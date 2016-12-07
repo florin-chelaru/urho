@@ -23,12 +23,18 @@ namespace Urho.Navigation
 	/// </summary>
 	public unsafe partial class Obstacle : Component
 	{
+		unsafe partial void OnObstacleCreated ();
+
+		[Preserve]
 		public Obstacle (IntPtr handle) : base (handle)
 		{
+			OnObstacleCreated ();
 		}
 
+		[Preserve]
 		protected Obstacle (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnObstacleCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Navigation
 			return Marshal.PtrToStringAnsi (Obstacle_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public Obstacle () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Navigation
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr Obstacle_Obstacle (IntPtr param1);
 
+		[Preserve]
 		public Obstacle (Context param1) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(Obstacle));
 			handle = Obstacle_Obstacle ((object)param1 == null ? IntPtr.Zero : param1.Handle);
 			Runtime.RegisterObject (this);
+			OnObstacleCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -201,6 +210,7 @@ namespace Urho.Navigation
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

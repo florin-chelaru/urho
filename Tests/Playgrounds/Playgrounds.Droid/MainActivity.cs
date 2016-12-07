@@ -1,5 +1,7 @@
 ﻿using Android.App;
 using Android.OS;
+using Android.Widget;
+using Urho.Droid;
 
 namespace Playgrounds.Droid
 {
@@ -11,7 +13,15 @@ namespace Playgrounds.Droid
 			base.OnCreate(bundle);
 
 			// Set our view from the "main" layout resource
-			// SetContentView (Resource.Layout.Main);
+			SetContentView (Resource.Layout.Main);
+
+			var button = FindViewById<Button>(Resource.Id.runButton);
+			button.Click += Button_Click;
+		}
+
+		void Button_Click(object sender, System.EventArgs e)
+		{
+			//UrhoSurface.RunInActivity<VrTestApp>();
 		}
 	}
 }

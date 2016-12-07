@@ -23,12 +23,18 @@ namespace Urho.Physics
 	/// </summary>
 	public unsafe partial class RigidBody : Component
 	{
+		unsafe partial void OnRigidBodyCreated ();
+
+		[Preserve]
 		public RigidBody (IntPtr handle) : base (handle)
 		{
+			OnRigidBodyCreated ();
 		}
 
+		[Preserve]
 		protected RigidBody (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnRigidBodyCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Physics
 			return Marshal.PtrToStringAnsi (RigidBody_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public RigidBody () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Physics
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr RigidBody_RigidBody (IntPtr context);
 
+		[Preserve]
 		public RigidBody (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(RigidBody));
 			handle = RigidBody_RigidBody ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnRigidBodyCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -1017,6 +1026,7 @@ namespace Urho.Physics
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

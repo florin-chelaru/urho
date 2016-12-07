@@ -23,12 +23,18 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class Octree : Component
 	{
+		unsafe partial void OnOctreeCreated ();
+
+		[Preserve]
 		public Octree (IntPtr handle) : base (handle)
 		{
+			OnOctreeCreated ();
 		}
 
+		[Preserve]
 		protected Octree (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnOctreeCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho
 			return Marshal.PtrToStringAnsi (Octree_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public Octree () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr Octree_Octree (IntPtr context);
 
+		[Preserve]
 		public Octree (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(Octree));
 			handle = Octree_Octree ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnOctreeCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -201,6 +210,7 @@ namespace Urho
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

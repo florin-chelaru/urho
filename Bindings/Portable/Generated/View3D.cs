@@ -23,12 +23,18 @@ namespace Urho.Gui
 	/// </summary>
 	public unsafe partial class View3D : Window
 	{
+		unsafe partial void OnView3DCreated ();
+
+		[Preserve]
 		public View3D (IntPtr handle) : base (handle)
 		{
+			OnView3DCreated ();
 		}
 
+		[Preserve]
 		protected View3D (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnView3DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Gui
 			return Marshal.PtrToStringAnsi (View3D_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public View3D () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Gui
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr View3D_View3D (IntPtr context);
 
+		[Preserve]
 		public View3D (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(View3D));
 			handle = View3D_View3D ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnView3DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -249,6 +258,7 @@ namespace Urho.Gui
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

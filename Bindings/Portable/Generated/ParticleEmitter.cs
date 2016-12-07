@@ -23,12 +23,18 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class ParticleEmitter : BillboardSet
 	{
+		unsafe partial void OnParticleEmitterCreated ();
+
+		[Preserve]
 		public ParticleEmitter (IntPtr handle) : base (handle)
 		{
+			OnParticleEmitterCreated ();
 		}
 
+		[Preserve]
 		protected ParticleEmitter (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnParticleEmitterCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho
 			return Marshal.PtrToStringAnsi (ParticleEmitter_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public ParticleEmitter () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr ParticleEmitter_ParticleEmitter (IntPtr context);
 
+		[Preserve]
 		public ParticleEmitter (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(ParticleEmitter));
 			handle = ParticleEmitter_ParticleEmitter ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnParticleEmitterCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -297,6 +306,7 @@ namespace Urho
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

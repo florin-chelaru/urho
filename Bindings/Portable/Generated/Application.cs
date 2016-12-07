@@ -23,12 +23,18 @@ namespace Urho
 	/// </summary>
 	public partial class Application : UrhoObject
 	{
+		unsafe partial void OnApplicationCreated ();
+
+		[Preserve]
 		public Application (IntPtr handle) : base (handle)
 		{
+			OnApplicationCreated ();
 		}
 
+		[Preserve]
 		protected Application (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnApplicationCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -102,6 +108,7 @@ namespace Urho
 			}
 		}
 
+		[Preserve]
 		public static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

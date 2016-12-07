@@ -23,12 +23,18 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class BillboardSet : Drawable
 	{
+		unsafe partial void OnBillboardSetCreated ();
+
+		[Preserve]
 		public BillboardSet (IntPtr handle) : base (handle)
 		{
+			OnBillboardSetCreated ();
 		}
 
+		[Preserve]
 		protected BillboardSet (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnBillboardSetCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho
 			return Marshal.PtrToStringAnsi (BillboardSet_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public BillboardSet () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr BillboardSet_BillboardSet (IntPtr context);
 
+		[Preserve]
 		public BillboardSet (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(BillboardSet));
 			handle = BillboardSet_BillboardSet ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnBillboardSetCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -369,6 +378,7 @@ namespace Urho
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

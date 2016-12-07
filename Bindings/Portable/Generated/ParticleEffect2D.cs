@@ -23,12 +23,18 @@ namespace Urho.Urho2D
 	/// </summary>
 	public unsafe partial class ParticleEffect2D : Resource
 	{
+		unsafe partial void OnParticleEffect2DCreated ();
+
+		[Preserve]
 		public ParticleEffect2D (IntPtr handle) : base (handle)
 		{
+			OnParticleEffect2DCreated ();
 		}
 
+		[Preserve]
 		protected ParticleEffect2D (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnParticleEffect2DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Urho2D
 			return Marshal.PtrToStringAnsi (ParticleEffect2D_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public ParticleEffect2D () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Urho2D
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr ParticleEffect2D_ParticleEffect2D (IntPtr context);
 
+		[Preserve]
 		public ParticleEffect2D (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(ParticleEffect2D));
 			handle = ParticleEffect2D_ParticleEffect2D ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnParticleEffect2DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -94,7 +103,7 @@ namespace Urho.Urho2D
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern bool ParticleEffect2D_BeginLoad (IntPtr handle, IntPtr source);
+		internal static extern bool ParticleEffect2D_BeginLoad_File (IntPtr handle, IntPtr source);
 
 		/// <summary>
 		/// Load resource from stream. May be called from a worker thread. Return true if successful.
@@ -102,7 +111,19 @@ namespace Urho.Urho2D
 		public override bool BeginLoad (File source)
 		{
 			Runtime.ValidateRefCounted (this);
-			return ParticleEffect2D_BeginLoad (handle, (object)source == null ? IntPtr.Zero : source.Handle);
+			return ParticleEffect2D_BeginLoad_File (handle, (object)source == null ? IntPtr.Zero : source.Handle);
+		}
+
+		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern bool ParticleEffect2D_BeginLoad_MemoryBuffer (IntPtr handle, IntPtr source);
+
+		/// <summary>
+		/// Load resource from stream. May be called from a worker thread. Return true if successful.
+		/// </summary>
+		public override bool BeginLoad (MemoryBuffer source)
+		{
+			Runtime.ValidateRefCounted (this);
+			return ParticleEffect2D_BeginLoad_MemoryBuffer (handle, (object)source == null ? IntPtr.Zero : source.Handle);
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -118,7 +139,7 @@ namespace Urho.Urho2D
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern bool ParticleEffect2D_Save (IntPtr handle, IntPtr dest);
+		internal static extern bool ParticleEffect2D_Save_File (IntPtr handle, IntPtr dest);
 
 		/// <summary>
 		/// Save resource. Return true if successful.
@@ -126,7 +147,19 @@ namespace Urho.Urho2D
 		public override bool Save (File dest)
 		{
 			Runtime.ValidateRefCounted (this);
-			return ParticleEffect2D_Save (handle, (object)dest == null ? IntPtr.Zero : dest.Handle);
+			return ParticleEffect2D_Save_File (handle, (object)dest == null ? IntPtr.Zero : dest.Handle);
+		}
+
+		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern bool ParticleEffect2D_Save_MemoryBuffer (IntPtr handle, IntPtr dest);
+
+		/// <summary>
+		/// Save resource. Return true if successful.
+		/// </summary>
+		public override bool Save (MemoryBuffer dest)
+		{
+			Runtime.ValidateRefCounted (this);
+			return ParticleEffect2D_Save_MemoryBuffer (handle, (object)dest == null ? IntPtr.Zero : dest.Handle);
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -993,6 +1026,7 @@ namespace Urho.Urho2D
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

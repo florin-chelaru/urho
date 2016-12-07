@@ -23,12 +23,18 @@ namespace Urho.Physics
 	/// </summary>
 	public unsafe partial class Constraint : Component
 	{
+		unsafe partial void OnConstraintCreated ();
+
+		[Preserve]
 		public Constraint (IntPtr handle) : base (handle)
 		{
+			OnConstraintCreated ();
 		}
 
+		[Preserve]
 		protected Constraint (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnConstraintCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Physics
 			return Marshal.PtrToStringAnsi (Constraint_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public Constraint () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Physics
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr Constraint_Constraint (IntPtr context);
 
+		[Preserve]
 		public Constraint (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(Constraint));
 			handle = Constraint_Constraint ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnConstraintCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -501,6 +510,7 @@ namespace Urho.Physics
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

@@ -23,12 +23,18 @@ namespace Urho.Physics
 	/// </summary>
 	public unsafe partial class PhysicsWorld : Component
 	{
+		unsafe partial void OnPhysicsWorldCreated ();
+
+		[Preserve]
 		public PhysicsWorld (IntPtr handle) : base (handle)
 		{
+			OnPhysicsWorldCreated ();
 		}
 
+		[Preserve]
 		protected PhysicsWorld (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnPhysicsWorldCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Physics
 			return Marshal.PtrToStringAnsi (PhysicsWorld_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public PhysicsWorld () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Physics
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr PhysicsWorld_PhysicsWorld (IntPtr scontext);
 
+		[Preserve]
 		public PhysicsWorld (Context scontext) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(PhysicsWorld));
 			handle = PhysicsWorld_PhysicsWorld ((object)scontext == null ? IntPtr.Zero : scontext.Handle);
 			Runtime.RegisterObject (this);
+			OnPhysicsWorldCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -597,6 +606,7 @@ namespace Urho.Physics
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

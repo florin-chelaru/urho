@@ -23,12 +23,18 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class Renderer : UrhoObject
 	{
+		unsafe partial void OnRendererCreated ();
+
+		[Preserve]
 		public Renderer (IntPtr handle) : base (handle)
 		{
+			OnRendererCreated ();
 		}
 
+		[Preserve]
 		protected Renderer (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnRendererCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho
 			return Marshal.PtrToStringAnsi (Renderer_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public Renderer () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr Renderer_Renderer (IntPtr context);
 
+		[Preserve]
 		public Renderer (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(Renderer));
 			handle = Renderer_Renderer ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnRendererCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -1245,6 +1254,7 @@ namespace Urho
 			}
 		}
 
+		[Preserve]
 		public static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

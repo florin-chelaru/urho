@@ -23,12 +23,18 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class SmoothedTransform : Component
 	{
+		unsafe partial void OnSmoothedTransformCreated ();
+
+		[Preserve]
 		public SmoothedTransform (IntPtr handle) : base (handle)
 		{
+			OnSmoothedTransformCreated ();
 		}
 
+		[Preserve]
 		protected SmoothedTransform (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnSmoothedTransformCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho
 			return Marshal.PtrToStringAnsi (SmoothedTransform_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public SmoothedTransform () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr SmoothedTransform_SmoothedTransform (IntPtr context);
 
+		[Preserve]
 		public SmoothedTransform (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(SmoothedTransform));
 			handle = SmoothedTransform_SmoothedTransform ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnSmoothedTransformCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -225,6 +234,7 @@ namespace Urho
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

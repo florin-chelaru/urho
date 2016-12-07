@@ -23,12 +23,18 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class WorkQueue : UrhoObject
 	{
+		unsafe partial void OnWorkQueueCreated ();
+
+		[Preserve]
 		public WorkQueue (IntPtr handle) : base (handle)
 		{
+			OnWorkQueueCreated ();
 		}
 
+		[Preserve]
 		protected WorkQueue (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnWorkQueueCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho
 			return Marshal.PtrToStringAnsi (WorkQueue_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public WorkQueue () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr WorkQueue_WorkQueue (IntPtr context);
 
+		[Preserve]
 		public WorkQueue (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(WorkQueue));
 			handle = WorkQueue_WorkQueue ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnWorkQueueCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -237,6 +246,7 @@ namespace Urho
 			}
 		}
 
+		[Preserve]
 		public static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

@@ -23,12 +23,18 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class VertexBuffer : UrhoObject
 	{
+		unsafe partial void OnVertexBufferCreated ();
+
+		[Preserve]
 		public VertexBuffer (IntPtr handle) : base (handle)
 		{
+			OnVertexBufferCreated ();
 		}
 
+		[Preserve]
 		protected VertexBuffer (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnVertexBufferCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -70,11 +76,13 @@ namespace Urho
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr VertexBuffer_VertexBuffer (IntPtr context, bool forceHeadless);
 
+		[Preserve]
 		public VertexBuffer (Context context, bool forceHeadless) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(VertexBuffer));
 			handle = VertexBuffer_VertexBuffer ((object)context == null ? IntPtr.Zero : context.Handle, forceHeadless);
 			Runtime.RegisterObject (this);
+			OnVertexBufferCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -365,6 +373,7 @@ namespace Urho
 			}
 		}
 
+		[Preserve]
 		public static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

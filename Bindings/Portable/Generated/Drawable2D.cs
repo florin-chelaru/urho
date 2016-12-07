@@ -23,12 +23,18 @@ namespace Urho.Urho2D
 	/// </summary>
 	public unsafe partial class Drawable2D : Drawable
 	{
+		unsafe partial void OnDrawable2DCreated ();
+
+		[Preserve]
 		public Drawable2D (IntPtr handle) : base (handle)
 		{
+			OnDrawable2DCreated ();
 		}
 
+		[Preserve]
 		protected Drawable2D (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnDrawable2DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -151,6 +157,7 @@ namespace Urho.Urho2D
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

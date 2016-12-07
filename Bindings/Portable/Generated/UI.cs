@@ -23,12 +23,18 @@ namespace Urho.Gui
 	/// </summary>
 	public unsafe partial class UI : UrhoObject
 	{
+		unsafe partial void OnUICreated ();
+
+		[Preserve]
 		public UI (IntPtr handle) : base (handle)
 		{
+			OnUICreated ();
 		}
 
+		[Preserve]
 		protected UI (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnUICreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Gui
 			return Marshal.PtrToStringAnsi (UI_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public UI () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Gui
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr UI_UI (IntPtr context);
 
+		[Preserve]
 		public UI (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(UI));
 			handle = UI_UI ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnUICreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -179,7 +188,7 @@ namespace Urho.Gui
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern IntPtr UI_LoadLayout (IntPtr handle, IntPtr source, IntPtr styleFile);
+		internal static extern IntPtr UI_LoadLayout_File (IntPtr handle, IntPtr source, IntPtr styleFile);
 
 		/// <summary>
 		/// Load a UI layout from an XML file. Optionally specify another XML file for element style. Return the root element.
@@ -187,7 +196,19 @@ namespace Urho.Gui
 		public UIElement LoadLayout (File source, Urho.Resources.XmlFile styleFile)
 		{
 			Runtime.ValidateRefCounted (this);
-			return Runtime.LookupRefCounted<UIElement> (UI_LoadLayout (handle, (object)source == null ? IntPtr.Zero : source.Handle, (object)styleFile == null ? IntPtr.Zero : styleFile.Handle));
+			return Runtime.LookupRefCounted<UIElement> (UI_LoadLayout_File (handle, (object)source == null ? IntPtr.Zero : source.Handle, (object)styleFile == null ? IntPtr.Zero : styleFile.Handle));
+		}
+
+		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern IntPtr UI_LoadLayout_MemoryBuffer (IntPtr handle, IntPtr source, IntPtr styleFile);
+
+		/// <summary>
+		/// Load a UI layout from an XML file. Optionally specify another XML file for element style. Return the root element.
+		/// </summary>
+		public UIElement LoadLayout (MemoryBuffer source, Urho.Resources.XmlFile styleFile)
+		{
+			Runtime.ValidateRefCounted (this);
+			return Runtime.LookupRefCounted<UIElement> (UI_LoadLayout_MemoryBuffer (handle, (object)source == null ? IntPtr.Zero : source.Handle, (object)styleFile == null ? IntPtr.Zero : styleFile.Handle));
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -203,7 +224,7 @@ namespace Urho.Gui
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern bool UI_SaveLayout (IntPtr handle, IntPtr dest, IntPtr element);
+		internal static extern bool UI_SaveLayout_File (IntPtr handle, IntPtr dest, IntPtr element);
 
 		/// <summary>
 		/// Save a UI layout to an XML file. Return true if successful.
@@ -211,7 +232,19 @@ namespace Urho.Gui
 		public bool SaveLayout (File dest, UIElement element)
 		{
 			Runtime.ValidateRefCounted (this);
-			return UI_SaveLayout (handle, (object)dest == null ? IntPtr.Zero : dest.Handle, (object)element == null ? IntPtr.Zero : element.Handle);
+			return UI_SaveLayout_File (handle, (object)dest == null ? IntPtr.Zero : dest.Handle, (object)element == null ? IntPtr.Zero : element.Handle);
+		}
+
+		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern bool UI_SaveLayout_MemoryBuffer (IntPtr handle, IntPtr dest, IntPtr element);
+
+		/// <summary>
+		/// Save a UI layout to an XML file. Return true if successful.
+		/// </summary>
+		public bool SaveLayout (MemoryBuffer dest, UIElement element)
+		{
+			Runtime.ValidateRefCounted (this);
+			return UI_SaveLayout_MemoryBuffer (handle, (object)dest == null ? IntPtr.Zero : dest.Handle, (object)element == null ? IntPtr.Zero : element.Handle);
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -718,6 +751,7 @@ namespace Urho.Gui
 			}
 		}
 
+		[Preserve]
 		public static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

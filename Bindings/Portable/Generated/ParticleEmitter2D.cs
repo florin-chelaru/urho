@@ -23,12 +23,18 @@ namespace Urho.Urho2D
 	/// </summary>
 	public unsafe partial class ParticleEmitter2D : Drawable2D
 	{
+		unsafe partial void OnParticleEmitter2DCreated ();
+
+		[Preserve]
 		public ParticleEmitter2D (IntPtr handle) : base (handle)
 		{
+			OnParticleEmitter2DCreated ();
 		}
 
+		[Preserve]
 		protected ParticleEmitter2D (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnParticleEmitter2DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Urho2D
 			return Marshal.PtrToStringAnsi (ParticleEmitter2D_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public ParticleEmitter2D () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Urho2D
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr ParticleEmitter2D_ParticleEmitter2D (IntPtr context);
 
+		[Preserve]
 		public ParticleEmitter2D (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(ParticleEmitter2D));
 			handle = ParticleEmitter2D_ParticleEmitter2D ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnParticleEmitter2DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -237,6 +246,7 @@ namespace Urho.Urho2D
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

@@ -23,12 +23,18 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class LogicComponent : Component
 	{
+		unsafe partial void OnLogicComponentCreated ();
+
+		[Preserve]
 		public LogicComponent (IntPtr handle) : base (handle)
 		{
+			OnLogicComponentCreated ();
 		}
 
+		[Preserve]
 		protected LogicComponent (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnLogicComponentCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho
 			return Marshal.PtrToStringAnsi (LogicComponent_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public LogicComponent () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr LogicComponent_LogicComponent (IntPtr context);
 
+		[Preserve]
 		public LogicComponent (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(LogicComponent));
 			handle = LogicComponent_LogicComponent ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnLogicComponentCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -225,6 +234,7 @@ namespace Urho
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

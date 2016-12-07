@@ -23,12 +23,18 @@ namespace Urho.Gui
 	/// </summary>
 	public unsafe partial class Cursor : BorderImage
 	{
+		unsafe partial void OnCursorCreated ();
+
+		[Preserve]
 		public Cursor (IntPtr handle) : base (handle)
 		{
+			OnCursorCreated ();
 		}
 
+		[Preserve]
 		protected Cursor (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnCursorCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Gui
 			return Marshal.PtrToStringAnsi (Cursor_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public Cursor () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Gui
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr Cursor_Cursor (IntPtr context);
 
+		[Preserve]
 		public Cursor (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(Cursor));
 			handle = Cursor_Cursor ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnCursorCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -201,6 +210,7 @@ namespace Urho.Gui
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

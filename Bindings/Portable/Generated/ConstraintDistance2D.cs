@@ -23,12 +23,18 @@ namespace Urho.Urho2D
 	/// </summary>
 	public unsafe partial class ConstraintDistance2D : Constraint2D
 	{
+		unsafe partial void OnConstraintDistance2DCreated ();
+
+		[Preserve]
 		public ConstraintDistance2D (IntPtr handle) : base (handle)
 		{
+			OnConstraintDistance2DCreated ();
 		}
 
+		[Preserve]
 		protected ConstraintDistance2D (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnConstraintDistance2DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Urho2D
 			return Marshal.PtrToStringAnsi (ConstraintDistance2D_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public ConstraintDistance2D () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Urho2D
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr ConstraintDistance2D_ConstraintDistance2D (IntPtr context);
 
+		[Preserve]
 		public ConstraintDistance2D (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(ConstraintDistance2D));
 			handle = ConstraintDistance2D_ConstraintDistance2D ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnConstraintDistance2DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -201,6 +210,7 @@ namespace Urho.Urho2D
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

@@ -23,12 +23,18 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class CustomGeometry : Drawable
 	{
+		unsafe partial void OnCustomGeometryCreated ();
+
+		[Preserve]
 		public CustomGeometry (IntPtr handle) : base (handle)
 		{
+			OnCustomGeometryCreated ();
 		}
 
+		[Preserve]
 		protected CustomGeometry (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnCustomGeometryCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho
 			return Marshal.PtrToStringAnsi (CustomGeometry_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public CustomGeometry () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr CustomGeometry_CustomGeometry (IntPtr context);
 
+		[Preserve]
 		public CustomGeometry (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(CustomGeometry));
 			handle = CustomGeometry_CustomGeometry ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnCustomGeometryCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -357,6 +366,7 @@ namespace Urho
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

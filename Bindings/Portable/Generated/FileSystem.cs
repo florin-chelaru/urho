@@ -23,12 +23,18 @@ namespace Urho.IO
 	/// </summary>
 	public unsafe partial class FileSystem : UrhoObject
 	{
+		unsafe partial void OnFileSystemCreated ();
+
+		[Preserve]
 		public FileSystem (IntPtr handle) : base (handle)
 		{
+			OnFileSystemCreated ();
 		}
 
+		[Preserve]
 		protected FileSystem (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnFileSystemCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.IO
 			return Marshal.PtrToStringAnsi (FileSystem_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public FileSystem () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.IO
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr FileSystem_FileSystem (IntPtr context);
 
+		[Preserve]
 		public FileSystem (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(FileSystem));
 			handle = FileSystem_FileSystem ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnFileSystemCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -345,6 +354,7 @@ namespace Urho.IO
 			}
 		}
 
+		[Preserve]
 		public static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

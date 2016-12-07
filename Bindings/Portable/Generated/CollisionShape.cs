@@ -23,12 +23,18 @@ namespace Urho.Physics
 	/// </summary>
 	public unsafe partial class CollisionShape : Component
 	{
+		unsafe partial void OnCollisionShapeCreated ();
+
+		[Preserve]
 		public CollisionShape (IntPtr handle) : base (handle)
 		{
+			OnCollisionShapeCreated ();
 		}
 
+		[Preserve]
 		protected CollisionShape (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnCollisionShapeCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Physics
 			return Marshal.PtrToStringAnsi (CollisionShape_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public CollisionShape () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Physics
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr CollisionShape_CollisionShape (IntPtr context);
 
+		[Preserve]
 		public CollisionShape (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(CollisionShape));
 			handle = CollisionShape_CollisionShape ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnCollisionShapeCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -513,6 +522,7 @@ namespace Urho.Physics
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

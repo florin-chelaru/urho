@@ -23,12 +23,18 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class Time : UrhoObject
 	{
+		unsafe partial void OnTimeCreated ();
+
+		[Preserve]
 		public Time (IntPtr handle) : base (handle)
 		{
+			OnTimeCreated ();
 		}
 
+		[Preserve]
 		protected Time (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnTimeCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho
 			return Marshal.PtrToStringAnsi (Time_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public Time () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr Time_Time (IntPtr context);
 
+		[Preserve]
 		public Time (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(Time));
 			handle = Time_Time ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnTimeCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -225,6 +234,7 @@ namespace Urho
 			}
 		}
 
+		[Preserve]
 		public static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

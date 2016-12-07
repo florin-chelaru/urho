@@ -23,12 +23,16 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class RefCounted
 	{
+		unsafe partial void OnRefCountedCreated ();
+
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr RefCounted_RefCounted ();
 
+		[Preserve]
 		public RefCounted ()
 		{
 			handle = RefCounted_RefCounted ();
+			OnRefCountedCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]

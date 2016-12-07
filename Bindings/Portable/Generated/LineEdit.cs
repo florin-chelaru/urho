@@ -23,12 +23,18 @@ namespace Urho.Gui
 	/// </summary>
 	public unsafe partial class LineEdit : BorderImage
 	{
+		unsafe partial void OnLineEditCreated ();
+
+		[Preserve]
 		public LineEdit (IntPtr handle) : base (handle)
 		{
+			OnLineEditCreated ();
 		}
 
+		[Preserve]
 		protected LineEdit (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnLineEditCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Gui
 			return Marshal.PtrToStringAnsi (LineEdit_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public LineEdit () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Gui
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr LineEdit_LineEdit (IntPtr context);
 
+		[Preserve]
 		public LineEdit (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(LineEdit));
 			handle = LineEdit_LineEdit ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnLineEditCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -393,6 +402,7 @@ namespace Urho.Gui
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

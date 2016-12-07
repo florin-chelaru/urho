@@ -23,12 +23,18 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class ConstantBuffer : UrhoObject
 	{
+		unsafe partial void OnConstantBufferCreated ();
+
+		[Preserve]
 		public ConstantBuffer (IntPtr handle) : base (handle)
 		{
+			OnConstantBufferCreated ();
 		}
 
+		[Preserve]
 		protected ConstantBuffer (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnConstantBufferCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho
 			return Marshal.PtrToStringAnsi (ConstantBuffer_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public ConstantBuffer () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr ConstantBuffer_ConstantBuffer (IntPtr context);
 
+		[Preserve]
 		public ConstantBuffer (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(ConstantBuffer));
 			handle = ConstantBuffer_ConstantBuffer ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnConstantBufferCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -177,6 +186,7 @@ namespace Urho
 			}
 		}
 
+		[Preserve]
 		public static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

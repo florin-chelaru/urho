@@ -23,12 +23,18 @@ namespace Urho.Audio
 	/// </summary>
 	public unsafe partial class SoundSource3D : SoundSource
 	{
+		unsafe partial void OnSoundSource3DCreated ();
+
+		[Preserve]
 		public SoundSource3D (IntPtr handle) : base (handle)
 		{
+			OnSoundSource3DCreated ();
 		}
 
+		[Preserve]
 		protected SoundSource3D (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnSoundSource3DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Audio
 			return Marshal.PtrToStringAnsi (SoundSource3D_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public SoundSource3D () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Audio
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr SoundSource3D_SoundSource3D (IntPtr context);
 
+		[Preserve]
 		public SoundSource3D (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(SoundSource3D));
 			handle = SoundSource3D_SoundSource3D ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnSoundSource3DCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -285,6 +294,7 @@ namespace Urho.Audio
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

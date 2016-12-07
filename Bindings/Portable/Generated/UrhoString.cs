@@ -23,121 +23,149 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class UrhoString
 	{
+		unsafe partial void OnUrhoStringCreated ();
+
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr UrhoString_String ();
 
+		[Preserve]
 		public UrhoString ()
 		{
 			Runtime.Validate (typeof(UrhoString));
 			handle = UrhoString_String ();
+			OnUrhoStringCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr UrhoString_String0 (string str);
 
+		[Preserve]
 		public UrhoString (string str)
 		{
 			Runtime.Validate (typeof(UrhoString));
 			handle = UrhoString_String0 (str);
+			OnUrhoStringCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr UrhoString_String1 (int value);
 
+		[Preserve]
 		public UrhoString (int value)
 		{
 			Runtime.Validate (typeof(UrhoString));
 			handle = UrhoString_String1 (value);
+			OnUrhoStringCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr UrhoString_String2 (short value);
 
+		[Preserve]
 		public UrhoString (short value)
 		{
 			Runtime.Validate (typeof(UrhoString));
 			handle = UrhoString_String2 (value);
+			OnUrhoStringCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr UrhoString_String3 (System.nint value);
 
+		[Preserve]
 		public UrhoString (System.nint value)
 		{
 			Runtime.Validate (typeof(UrhoString));
 			handle = UrhoString_String3 (value);
+			OnUrhoStringCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr UrhoString_String4 (long value);
 
+		[Preserve]
 		public UrhoString (long value)
 		{
 			Runtime.Validate (typeof(UrhoString));
 			handle = UrhoString_String4 (value);
+			OnUrhoStringCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr UrhoString_String5 (uint value);
 
+		[Preserve]
 		public UrhoString (uint value)
 		{
 			Runtime.Validate (typeof(UrhoString));
 			handle = UrhoString_String5 (value);
+			OnUrhoStringCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr UrhoString_String6 (ushort value);
 
+		[Preserve]
 		public UrhoString (ushort value)
 		{
 			Runtime.Validate (typeof(UrhoString));
 			handle = UrhoString_String6 (value);
+			OnUrhoStringCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr UrhoString_String7 (System.nuint value);
 
+		[Preserve]
 		public UrhoString (System.nuint value)
 		{
 			Runtime.Validate (typeof(UrhoString));
 			handle = UrhoString_String7 (value);
+			OnUrhoStringCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr UrhoString_String8 (ulong value);
 
+		[Preserve]
 		public UrhoString (ulong value)
 		{
 			Runtime.Validate (typeof(UrhoString));
 			handle = UrhoString_String8 (value);
+			OnUrhoStringCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr UrhoString_String9 (float value);
 
+		[Preserve]
 		public UrhoString (float value)
 		{
 			Runtime.Validate (typeof(UrhoString));
 			handle = UrhoString_String9 (value);
+			OnUrhoStringCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr UrhoString_String10 (double value);
 
+		[Preserve]
 		public UrhoString (double value)
 		{
 			Runtime.Validate (typeof(UrhoString));
 			handle = UrhoString_String10 (value);
+			OnUrhoStringCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr UrhoString_String11 (bool value);
 
+		[Preserve]
 		public UrhoString (bool value)
 		{
 			Runtime.Validate (typeof(UrhoString));
 			handle = UrhoString_String11 (value);
+			OnUrhoStringCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]

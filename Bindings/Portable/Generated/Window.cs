@@ -23,12 +23,18 @@ namespace Urho.Gui
 	/// </summary>
 	public unsafe partial class Window : BorderImage
 	{
+		unsafe partial void OnWindowCreated ();
+
+		[Preserve]
 		public Window (IntPtr handle) : base (handle)
 		{
+			OnWindowCreated ();
 		}
 
+		[Preserve]
 		protected Window (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnWindowCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Gui
 			return Marshal.PtrToStringAnsi (Window_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public Window () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Gui
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr Window_Window (IntPtr context);
 
+		[Preserve]
 		public Window (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(Window));
 			handle = Window_Window ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnWindowCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -357,6 +366,7 @@ namespace Urho.Gui
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

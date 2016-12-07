@@ -23,12 +23,18 @@ namespace Urho.Gui
 	/// </summary>
 	public unsafe partial class ScrollView : UIElement
 	{
+		unsafe partial void OnScrollViewCreated ();
+
+		[Preserve]
 		public ScrollView (IntPtr handle) : base (handle)
 		{
+			OnScrollViewCreated ();
 		}
 
+		[Preserve]
 		protected ScrollView (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnScrollViewCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.Gui
 			return Marshal.PtrToStringAnsi (ScrollView_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public ScrollView () : this (Application.CurrentContext)
 		{
 		}
@@ -74,11 +81,13 @@ namespace Urho.Gui
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr ScrollView_ScrollView (IntPtr context);
 
+		[Preserve]
 		public ScrollView (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(ScrollView));
 			handle = ScrollView_ScrollView ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnScrollViewCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -453,6 +462,7 @@ namespace Urho.Gui
 			}
 		}
 
+		[Preserve]
 		public new static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

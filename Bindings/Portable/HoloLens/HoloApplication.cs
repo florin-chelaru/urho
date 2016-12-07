@@ -85,7 +85,7 @@ namespace Urho.HoloLens
 			if (Input.GetKeyDown(Key.D)) cameraNode.Translate( Vector3.UnitX * moveSpeed * timeStep);
 		}
 
-		protected virtual XmlFile DefaultRenderPath => Emulator ? CoreAssets.RenderPaths.Forward : CoreAssets.RenderPaths.ForwardHWDepth;
+		protected virtual XmlFile DefaultRenderPath => CoreAssets.RenderPaths.Forward;
 
 		[DllImport(Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		static extern void Camera_SetHoloProjections(
@@ -116,12 +116,7 @@ namespace Urho.HoloLens
 			var leftCameraNode = Scene.CreateChild();
 			var rightCameraNode = Scene.CreateChild();
 			LeftCamera = leftCameraNode.CreateComponent<Camera>();
-			CullingCamera = leftCameraNode.CreateComponent<Camera>();
 			RightCamera = rightCameraNode.CreateComponent<Camera>();
-
-			var leftViewport = new Viewport(Scene, LeftCamera, null);
-			Renderer.SetViewport(0, leftViewport);
-			leftViewport.CullCamera = CullingCamera;
 
 			if (Emulator)
 			{
@@ -133,17 +128,35 @@ namespace Urho.HoloLens
 			}
 
 			Renderer.NumViewports = 2; //two eyes
-			var rightVp = new Viewport(Scene, RightCamera, null);
-			rightVp.CullCamera = CullingCamera;
 
-			rightVp.SetStereoMode(true);
+#if UWP_HOLO
+			var leftViewport = new Viewport(Scene, LeftCamera, null);
+			var rightVp = new Viewport(Scene, RightCamera, null);
+			Renderer.SetViewport(0, leftViewport);
 			Renderer.SetViewport(1, rightVp);
 
-			Time.SubscribeToFrameStarted(args => 
+			CullingCamera = leftCameraNode.CreateComponent<Camera>();
+			rightVp.CullCamera = CullingCamera;
+			leftViewport.CullCamera = CullingCamera;
+			rightVp.SetStereoMode(true);
+
+			Time.SubscribeToFrameStarted(args =>
 				Camera_SetHoloProjections(
-					LeftCamera.Handle, RightCamera.Handle, CullingCamera.Handle, 
-					ref leftView, ref leftProj, 
+					LeftCamera.Handle, RightCamera.Handle, CullingCamera.Handle,
+					ref leftView, ref leftProj,
 					ref rightView, ref rightProj));
+#else
+			var leftEyeRect = new IntRect(0, 0, Graphics.Width / 2, Graphics.Height);
+			var rightEyeRect = new IntRect(Graphics.Width / 2, 0, Graphics.Width, Graphics.Height);
+			
+			var leftViewport = new Viewport(Scene, LeftCamera, leftEyeRect, null);
+			var rightVp = new Viewport(Scene, RightCamera, rightEyeRect, null);
+			Renderer.SetViewport(0, leftViewport);
+			Renderer.SetViewport(1, rightVp);
+
+			leftCameraNode.Translate(new Vector3(-0.032f, 0, 0));
+			rightCameraNode.Translate(new Vector3(0.032f, 0, 0));
+#endif
 		}
 
 		internal void UpdateStereoView(Matrix4 leftView, Matrix4 rightView, Matrix4 leftProj, Matrix4 rightProj)
@@ -154,11 +167,14 @@ namespace Urho.HoloLens
 			this.rightProj = rightProj;
 		}
 
+		public Dictionary<string, Action> CortanaCommands { get; private set; }
+
 		/// <summary>
 		/// NOTE: Make sure "Microphone" capability is declared.
 		/// </summary>
 		protected Task<bool> RegisterCortanaCommands(Dictionary<string, Action> commands)
 		{
+			CortanaCommands = commands;
 #if UWP_HOLO
 			return Urho.HoloLens.UrhoAppView.Current.VoiceManager.RegisterCortanaCommands(commands);
 #else

@@ -23,22 +23,30 @@ namespace Urho
 	/// </summary>
 	public unsafe partial class Context : RefCounted
 	{
+		unsafe partial void OnContextCreated ();
+
+		[Preserve]
 		public Context (IntPtr handle) : base (handle)
 		{
+			OnContextCreated ();
 		}
 
+		[Preserve]
 		protected Context (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnContextCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr Context_Context ();
 
+		[Preserve]
 		public Context () : base (UrhoObjectFlag.Empty)
 		{
 			CheckEngine ();
 			handle = Context_Context ();
 			Runtime.RegisterObject (this);
+			OnContextCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]

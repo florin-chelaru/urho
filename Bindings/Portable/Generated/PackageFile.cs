@@ -23,12 +23,18 @@ namespace Urho.IO
 	/// </summary>
 	public unsafe partial class PackageFile : UrhoObject
 	{
+		unsafe partial void OnPackageFileCreated ();
+
+		[Preserve]
 		public PackageFile (IntPtr handle) : base (handle)
 		{
+			OnPackageFileCreated ();
 		}
 
+		[Preserve]
 		protected PackageFile (UrhoObjectFlag emptyFlag) : base (emptyFlag)
 		{
+			OnPackageFileCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -67,6 +73,7 @@ namespace Urho.IO
 			return Marshal.PtrToStringAnsi (PackageFile_GetTypeNameStatic ());
 		}
 
+		[Preserve]
 		public PackageFile () : this (Application.CurrentContext)
 		{
 		}
@@ -74,21 +81,25 @@ namespace Urho.IO
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr PackageFile_PackageFile (IntPtr context);
 
+		[Preserve]
 		public PackageFile (Context context) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(PackageFile));
 			handle = PackageFile_PackageFile ((object)context == null ? IntPtr.Zero : context.Handle);
 			Runtime.RegisterObject (this);
+			OnPackageFileCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr PackageFile_PackageFile0 (IntPtr context, string fileName, uint startOffset);
 
+		[Preserve]
 		public PackageFile (Context context, string fileName, uint startOffset) : base (UrhoObjectFlag.Empty)
 		{
 			Runtime.Validate (typeof(PackageFile));
 			handle = PackageFile_PackageFile0 ((object)context == null ? IntPtr.Zero : context.Handle, fileName, startOffset);
 			Runtime.RegisterObject (this);
+			OnPackageFileCreated ();
 		}
 
 		[DllImport (Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
@@ -223,6 +234,7 @@ namespace Urho.IO
 			}
 		}
 
+		[Preserve]
 		public static StringHash TypeStatic {
 			get {
 				return GetTypeStatic ();

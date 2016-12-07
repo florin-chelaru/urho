@@ -21,7 +21,7 @@ namespace Urho
 		static Dictionary<Type, int> hashDict;
 
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-		delegate void NativeCallback(CallbackType type, IntPtr target, IntPtr param1, IntPtr param2, IntPtr param3, IntPtr param4);
+		delegate void NativeCallback(CallbackType type, IntPtr target, IntPtr param1, int param2, string param3);
 
 		[DllImport(Consts.NativeImport, CallingConvention = CallingConvention.Cdecl)]
 		static extern void RegisterMonoNativeCallbacks(NativeCallback callback);
@@ -46,7 +46,7 @@ namespace Urho
 		/// This method is called by RefCounted::~RefCounted or RefCounted::AddRef
 		/// </summary>
 		[MonoPInvokeCallback(typeof(NativeCallback))]
-		static void OnNativeCallback(CallbackType type, IntPtr target, IntPtr param1, IntPtr param2, IntPtr param3, IntPtr param4)
+		static void OnNativeCallback(CallbackType type, IntPtr target, IntPtr param1, int param2, string param3)
 		{
 			const string typeNameKey = "SharpTypeName";
 
@@ -79,7 +79,13 @@ namespace Urho
 							Component component;
 							try
 							{
-								component = (Component)Activator.CreateInstance(Type.GetType(name), target);
+								var typeObj = Type.GetType(name);
+								if (typeObj == null)
+								{
+									Log.Write(LogLevel.Warning, $"{name} doesn't exist. Probably was removed by Linker. Add it to a some LinkerPleaseInclude.cs in case if you need it.");
+									return;
+								}
+								component = (Component)Activator.CreateInstance(typeObj, target);
 							}
 							catch (Exception exc)
 							{
@@ -130,6 +136,11 @@ namespace Urho
 						else
 							reference.HandleNativeDelete();
 					}
+					break;
+
+				case CallbackType.Log_Write:
+					Urho.Application.ThrowUnhandledException(
+						new Exception(param3 + ". You can omit this exception by subscribing to Urho.Application.UnhandledException event and set Handled property to True."));
 					break;
 			}
 		}
