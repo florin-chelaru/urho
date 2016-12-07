@@ -1,4 +1,4 @@
-
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
@@ -36,39 +36,39 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urho.Forms.Droid", "binding
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urho.Forms.iOS", "bindings\Urho.Forms.iOS.csproj", "{8F3352BA-BF6A-49F8-81D6-58D54B3EA72B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urho.UWP", "Bindings\UWP\Urho.UWP.csproj", "{3B881C69-A1AC-410A-A633-EA9FCA4A760C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MonoUrho.UWP", "Urho3D\Urho3D_UWP\MonoUrho.UWP\MonoUrho.UWP.vcxproj", "{C97FD9F2-EC10-435C-BBFE-986F414E8ACD}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MonoUrho.Windows", "Urho3D\Urho3D_Windows\MonoUrho.Windows\MonoUrho.Windows.vcxproj", "{6F1CB939-16E1-4753-91B1-A0B5C04D3121}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urho.Forms.UWP", "Bindings\UWP\Forms\Urho.Forms.UWP.csproj", "{3AFDAB77-57CE-4FCE-8324-81D57556A4FA}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Forms", "Forms", "{B2858361-A335-49FA-A9B9-8877E4B1B0EF}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Urho.Shared", "Bindings\Urho.Shared.shproj", "{05693742-16E4-45AD-B7DD-B5F3DE51BC11}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urho.Droid.SdlBinding", "Bindings\Android\Urho.Droid.SdlBinding\Urho.Droid.SdlBinding.csproj", "{68A19C58-7EBA-4AF4-BE15-F5D7A13B6C97}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urho.Tests", "Tests\Urho.Tests\Urho.Tests.csproj", "{0B981194-FDD9-4C9D-AE88-333D5140C9A2}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{1958F8CC-E712-41FF-9C2C-3F7FD4B6C511}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Playgrounds", "Playgrounds", "{7B31BB67-CA12-41DD-8DDF-779B7E7561D3}"
-EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "MonoUrho.UWP", "Urho3D\Urho3D_UWP\MonoUrho.UWP\MonoUrho.UWP.vcxproj", "{BB427E6D-F5F7-46B6-90D5-72E3F20707E0}"
-EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "MonoUrho.Windows", "Urho3D\Urho3D_Windows\MonoUrho.Windows\MonoUrho.Windows.vcxproj", "{6D2AD32A-1630-4AB2-82CA-4CA825AFEAB2}"
-EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "UrhoSharp.HoloLens", "Urho3D\Urho3D_HoloLens\UrhoSharp.HoloLens\UrhoSharp.HoloLens.vcxproj", "{8048936D-C4A6-4AE8-8D65-DA1FAB7B3EF8}"
-EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "MonoUrho.WindowsD3D", "Urho3D\Urho3D_Windows\MonoUrho.Windows\MonoUrho.WindowsD3D.vcxproj", "{BB6A00AC-BD77-4DD1-B055-14CCCA85AA37}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UrhoSharp.HoloLens", "Urho3D\Urho3D_HoloLens\UrhoSharp.HoloLens\UrhoSharp.HoloLens.vcxproj", "{C0C58E2D-5719-4C57-8A3E-B746AA8C9EB6}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "Urho.Forms.UWP", "Bindings\UWP\Forms\Urho.Forms.UWP.csproj", "{4F14BAF5-B5CD-4D99-994A-1A38FF18D94E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urho.HoloLens", "Bindings\HoloLens\Urho.HoloLens.csproj", "{9C3A02C0-6776-438A-AAF7-9F95AF55E243}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "Urho.Tests", "Tests\Urho.Tests\Urho.Tests.csproj", "{4101A32A-1CEC-4EB5-AACA-93AA370C1E49}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Playgrounds", "Playgrounds", "{7B31BB67-CA12-41DD-8DDF-779B7E7561D3}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "Urho.Tests.Desktop", "Tests\Urho.Tests.Desktop\Urho.Tests.Desktop.csproj", "{D89C5C5F-2BA2-49FC-A5CD-499D570B4B9E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Playgrounds.HoloLens", "Tests\Playgrounds\Playgrounds.HoloLens\Playgrounds.HoloLens.csproj", "{45531E74-AC4D-49D2-A899-CCC123BFE838}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "Playgrounds.HoloLens", "Tests\Playgrounds\Playgrounds.HoloLens\Playgrounds.HoloLens.csproj", "{2FF0FFB4-9701-4FB7-B963-B70C30A06D48}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Playgrounds.Console", "Tests\Playgrounds\Playgrounds.Console\Playgrounds.Console.csproj", "{605A6BB4-2D9E-4FAD-B443-E83286515095}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "Playgrounds.Console", "Tests\Playgrounds\Playgrounds.Console\Playgrounds.Console.csproj", "{53DA692B-1AA6-4D34-B50D-4FDCF9A4612A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MonoUrho.WindowsD3D", "Urho3D\Urho3D_Windows\MonoUrho.Windows\MonoUrho.WindowsD3D.vcxproj", "{331CB939-16E1-4753-91B1-A0B5C04D3121}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "Playgrounds.UWP", "Tests\Playgrounds\Playgrounds.UWP\Playgrounds.UWP.csproj", "{7BF468FF-6244-4805-BA8B-09075E480AE5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Playgrounds.UWP", "Tests\Playgrounds\Playgrounds.UWP\Playgrounds.UWP.csproj", "{58ACA3F0-33B5-46B9-9383-8FECD796475D}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "Playgrounds.Droid", "Tests\Playgrounds\Playgrounds.Droid\Playgrounds.Droid.csproj", "{4D94A708-EF08-4272-A69C-8B1FBC095678}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Playgrounds.Droid", "Tests\Playgrounds\Playgrounds.Droid\Playgrounds.Droid.csproj", "{48CFEC38-B885-4F9C-A255-E8380291A074}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urho.Droid.GoogleVR", "Bindings\Android\Urho.Droid.GoogleVR\Urho.Droid.GoogleVR.csproj", "{357BB22B-ADBC-4A78-851C-6AC40DF5D32A}"
 EndProject
@@ -1974,6 +1974,9 @@ Global
 		{D599C47F-B9E0-4A58-82E8-6286E0442E8F} = {B2858361-A335-49FA-A9B9-8877E4B1B0EF}
 		{8BAE491B-46F0-4A51-A456-D7A3B332BDC4} = {B2858361-A335-49FA-A9B9-8877E4B1B0EF}
 		{8F3352BA-BF6A-49F8-81D6-58D54B3EA72B} = {B2858361-A335-49FA-A9B9-8877E4B1B0EF}
+		{C97FD9F2-EC10-435C-BBFE-986F414E8ACD} = {02DFD71E-AC0B-4D8A-9038-CD4EE9ED7209}
+		{6F1CB939-16E1-4753-91B1-A0B5C04D3121} = {02DFD71E-AC0B-4D8A-9038-CD4EE9ED7209}
+		{3AFDAB77-57CE-4FCE-8324-81D57556A4FA} = {B2858361-A335-49FA-A9B9-8877E4B1B0EF}
 		{68A19C58-7EBA-4AF4-BE15-F5D7A13B6C97} = {02DFD71E-AC0B-4D8A-9038-CD4EE9ED7209}
 		{0B981194-FDD9-4C9D-AE88-333D5140C9A2} = {1958F8CC-E712-41FF-9C2C-3F7FD4B6C511}
 		{C0C58E2D-5719-4C57-8A3E-B746AA8C9EB6} = {02DFD71E-AC0B-4D8A-9038-CD4EE9ED7209}

@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
    <metadata minClientVersion="2.8.1">
        <id>UrhoSharp.Forms</id>
-       <version>1.2</version>
+       <version>1.2.22-x8664fix</version>
        <title>UrhoSharp for Xamarin.Forms</title>
        <authors>Xamarin Inc.</authors>
        <owners>Xamarin</owners>
@@ -47,10 +47,12 @@
      <file src="Bin/iOS/Urho.Forms.dll" target="lib/Xamarin.iOS10/Urho.Forms.dll" />
      <file src="docs/Urho.XML" target="lib/Xamarin.iOS10/Urho.Forms.XML" />
 	 
-	 <!--UWP-->
-     <!--<file src="Nuget/UWP/UrhoSharp.Forms.targets" target="build/uap10.0" />
+	   <!--UWP-->
+     <!--
+     <file src="Nuget/UWP/UrhoSharp.Forms.targets" target="build/uap10.0" />
      <file src="docs/Urho.XML" target="lib/uap10.0/Urho.Forms.XML" />
      <file src="Bin/UWP/Urho.Forms.dll" target="lib/uap10.0/Urho.Forms.dll" />
-     <file src="Bin/UWP/mono-urho.dll" target="native/UWP32/mono-urho.dll" />-->
+     <file src="Bin/UWP/mono-urho.dll" target="native/UWP32/mono-urho.dll" />
+     -->
    </files>
 </package>

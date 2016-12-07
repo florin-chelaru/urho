@@ -1,12 +1,12 @@
 # armv7s, armv7, arm64, i386, x86_64
 ARCH=x86_64
-SDK_VER=9.2
+SDK_VER=10.1
 MIN_IOS_VER=8.0
 OUTPUT_DIR=Bin/iOS
 URHO_DIR=Urho3D/Urho3D_iOS
 URHO_SOURCE_DIR=Urho3D/Source
 
-ifeq ($(ARCH), x86_64)
+ifeq ($(ARCH), i386)
 TARGET=iPhoneSimulator
 else ifeq ($(ARCH), x86_64)
 TARGET=iPhoneSimulator
