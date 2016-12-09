@@ -212,7 +212,11 @@ public class SDLActivity {
     public static void handlePause() {
         if (!SDLActivity.mIsPaused && SDLActivity.mIsSurfaceReady) {
             SDLActivity.mIsPaused = true;
+
+            Log.v("SDL", "SDLActivity.nativePause()");
             SDLActivity.nativePause();
+
+            Log.v("SDL", "mSurface.handlePause()");
             mSurface.handlePause();
         }
     }

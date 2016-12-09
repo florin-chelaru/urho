@@ -59,6 +59,7 @@ public class SDLSurface extends SurfaceView implements SurfaceHolder.Callback,
     }
 
     public void handlePause() {
+        Log.v("SDL", "enableSensor(Sensor.TYPE_ACCELEROMETER, false)");
         enableSensor(Sensor.TYPE_ACCELEROMETER, false);
     }
 
@@ -85,11 +86,17 @@ public class SDLSurface extends SurfaceView implements SurfaceHolder.Callback,
     // Called when we lose the surface
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        Log.v("SDL", "surfaceDestroyed() <- Customized code");
+        Log.v("SDL", "surfaceDestroyed() [customized]");
         // Call this *before* setting mIsSurfaceReady to 'false'
-        //SDLActivity.handlePause();
-        //SDLActivity.mIsSurfaceReady = false;
-        //SDLActivity.onNativeSurfaceDestroyed();
+
+        Log.v("SDL", "SDLActivity.handlePause()");
+        SDLActivity.handlePause();
+
+        SDLActivity.mIsSurfaceReady = false;
+        Log.v("SDL", "SDLActivity.mIsSurfaceReady = false");
+        Log.v("SDL", "Starting SDLActivity.onNativeSurfaceDestroyed()...");
+        SDLActivity.onNativeSurfaceDestroyed();
+        Log.v("SDL", "Ended SDLActivity.onNativeSurfaceDestroyed()");
     }
 
     // Called when the surface is resized
